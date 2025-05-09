@@ -29,7 +29,11 @@ app.use(session({
 }));
 
 // Routes
-app.use('/', require('./routes/auth'));
-app.use('/', require('./routes/dashboard'));
+app.use('/api', require('./routes/auth'));
+app.use('/api', require('./routes/dashboard'));
 
-app.listen(3000, () => console.log('Server running on port 3000'));
+// Start server
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
