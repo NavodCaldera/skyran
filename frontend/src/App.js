@@ -1,22 +1,17 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from './components/Navbar';
+import Home from './components/Home';
+import UnitTrustRates from './components/UnitTrustRates';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import UnitTrustRates from "./components/UnitTrustRates";
 
 function App() {
   return (
     <Router>
+      <Navbar />
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/unit-trust-rates" element={<UnitTrustRates />} />
-        <Route 
-          path="/" 
-          element={
-            <div className="text-center p-8">
-              <Link to="/unit-trust-rates" className="text-blue-600 text-4xl font-bold hover:underline">
-                Unit Trust
-              </Link>
-            </div>
-          } 
-        />
       </Routes>
     </Router>
   );
