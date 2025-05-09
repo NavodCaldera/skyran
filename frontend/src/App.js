@@ -1,13 +1,13 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import UnitTrustRates from "./components/UnitTrustRates";
-import Registration from './components/Registration';
+import AuthPage from "./components/Signup";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/registration" element={<Registration />} /> 
+        <Route path="/signup" element={<Signup />} />
         <Route path="/unit-trust-rates" element={<UnitTrustRates />} />
         <Route 
           path="/" 
