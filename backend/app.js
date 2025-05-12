@@ -11,7 +11,7 @@ const app = express();
 // Session store
 const sessionStore = new MySQLStore({
     host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
+    user: process.env.DATABASE_ROOT ,
     password: process.env.DATABASE_PASSWORD,
     database: process.env.DATABASE
 });
@@ -31,6 +31,7 @@ app.use(session({
 // Routes
 app.use('/api', require('./routes/auth'));
 app.use('/api', require('./routes/dashboard'));
+app.use('/api', require('./routes/portfolio'))
 
 // Start server
 const port = process.env.PORT || 3000;
