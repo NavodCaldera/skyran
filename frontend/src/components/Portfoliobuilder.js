@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { API_BASE_URL } from '../constants'; // Import at the top
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -82,15 +83,14 @@ const Portfoliobuilder = () => {
     });
 
     try {
-      const response = await fetch(`http://localhost:3000/api/risk_rate?${queryParams}`);
+      const response = await fetch(`${API_BASE_URL}/api/risk_rate?${queryParams}`);
       const data = await response.json();
-      setRiskRate(data.risk_rate); // ✅ Set risk rate here
+      setRiskRate(data.risk_rate);
     } catch (error) {
       console.error('Failed to fetch risk rate:', error);
       alert('Error fetching risk rate');
     }
   };
-
 
   const fetchExplanation = async () => {
     try {

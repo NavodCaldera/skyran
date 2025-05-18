@@ -4,32 +4,60 @@ import { Link } from 'react-router-dom';
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false); // Mobile menu state
     const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Desktop dropdown
+    const [isMarketDropdownOpen, setIsMarketDropdownOpen] = useState(false); // Desktop Market Insights submenu
     const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false); // Mobile dropdown
+    const [isMobileMarketDropdownOpen, setIsMobileMarketDropdownOpen] = useState(false); // Mobile Market Insights submenu
+    const [showHeader, setShowHeader] = useState(true); // For scroll-down reveal
+    const [isFloating, setIsFloating] = useState(false); // For oval/floating effect
     const dropdownRef = useRef(null);
+    const lastScrollY = useRef(0);
 
-    // Close desktop dropdown if clicked outside
+    // Scroll-down Reveal Header for desktop
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setIsDropdownOpen(false);
+        const handleScroll = () => {
+            if (window.innerWidth < 768) return; // Only desktop
+            const currentScrollY = window.scrollY;
+            if (currentScrollY <= 0) {
+                setShowHeader(true);
+                setIsFloating(false);
+            } else if (currentScrollY > lastScrollY.current) {
+                // Scrolling down
+                setShowHeader(false);
+            } else {
+                // Scrolling up
+                setShowHeader(true);
+                setIsFloating(true);
             }
+            lastScrollY.current = currentScrollY;
         };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     return (
-        <nav className="bg-[#18426c] text-[#fff] shadow-md">
+        <nav
+            className={`
+        bg-[#18426c] text-[#fff] shadow-md transition-all duration-300
+        ${isFloating
+            // No oval, just sticky/fixed with normal corners
+            ? 'md:fixed md:top-6 md:left-1/2 md:-translate-x-1/2 md:z-50 md:w-[95vw] md:max-w-7xl md:bg-[#18426c]/90 md:shadow-2xl md:border md:border-[#10cfc8]/30 md:px-6 md:py-1 md:backdrop-blur-md rounded-2xl'
+            : 'md:sticky md:top-0 md:left-0 md:shadow-md md:border-none md:px-0 md:py-1'
+        }
+        ${showHeader ? 'md:opacity-100 md:pointer-events-auto' : 'md:opacity-0 md:pointer-events-none'}
+    `}
+            style={{
+                transition: 'opacity 0.3s, top 0.3s',
+            }}
+        >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-16">
-                    {/* Logo */}
-                    <Link to="/" className="flex items-center space-x-2">
-                        <img src="/logo.png" alt="Logo" className="h-9 w-9" />
-                        <span className="text-[#fff] font-semibold text-3xl tracking-wide">Skyran</span>
-                    </Link>
+                <div className={`flex justify-between items-center py-4 ${isFloating ? 'md:h-12' : 'md:h-16'}`}>
+                    {/* Logo and Name on the left */}
+                    <div className="flex items-center">
+                        <Link to="/" className="flex items-center space-x-2">
+                            <img src="/logo.png" alt="Logo" className="h-9 w-9" />
+                            <span className="text-[#fff] font-semibold text-3xl tracking-wide">Skyran</span>
+                        </Link>
+                    </div>
 
                     {/* Desktop Menu */}
                     <div className="hidden md:flex items-center space-x-8">
@@ -43,23 +71,55 @@ const Navbar = () => {
                             </button>
                             {isDropdownOpen && (
                                 <div className="absolute z-10 mt-2 w-56 bg-[#2E3944] rounded-lg shadow-lg py-2">
-                                    {[
-                                        { path: "/portfolio-builder", label: "Portfolio Builder" },
-                                        { path: "/saving-account", label: "Saving Account" },
-                                        { path: "/unit-trust-rates", label: "Unit Trust" },
-                                        { path: "/fixed-deposit", label: "Fixed Deposit" },
-                                        { path: "/bonds", label: "Bonds" },
-                                        { path: "/share-market", label: "Share Market" },
-                                        { path: "/gold-market", label: "Gold Market" },
-                                    ].map(({ path, label }) => (
-                                        <Link
-                                            key={path}
-                                            to={path}
-                                            className="block px-4 py-2 text-sm hover:bg-[#10cfc8] hover:text-white transition duration-150"
+                                    <Link
+                                        to="/portfolio-builder"
+                                        className="block px-4 py-2 text-sm hover:bg-[#10cfc8] hover:text-white transition duration-150"
+                                    >
+                                        Investment Planner
+                                    </Link>
+                                    <Link
+                                        to="/advisor"
+                                        className="block px-4 py-2 text-sm hover:bg-[#10cfc8] hover:text-white transition duration-150"
+                                    >
+                                        Talk to an Advisor
+                                    </Link>
+                                    {/* Market Insights Submenu */}
+                                    <div
+                                        className="relative group"
+                                        onMouseEnter={() => setIsMarketDropdownOpen(true)}
+                                        onMouseLeave={() => setIsMarketDropdownOpen(false)}
+                                    >
+                                        <button
+                                            className="flex justify-between items-center w-full px-4 py-2 text-sm hover:bg-[#10cfc8] hover:text-white transition duration-150"
+                                            onClick={() => setIsMarketDropdownOpen(!isMarketDropdownOpen)}
+                                            type="button"
                                         >
-                                            {label}
-                                        </Link>
-                                    ))}
+                                            Market Insights
+                                            <span className="ml-2">▶</span>
+                                        </button>
+                                        {isMarketDropdownOpen && (
+                                            <div className="absolute left-full top-0 mt-0 w-64 bg-[#2E3944] rounded-lg shadow-lg py-2 z-20">
+                                                <Link to="/saving-account" className="block px-4 py-2 text-sm hover:bg-[#10cfc8] hover:text-white transition duration-150">
+                                                    Saving &amp; Current Accounts
+                                                </Link>
+                                                <Link to="/fixed-deposit" className="block px-4 py-2 text-sm hover:bg-[#10cfc8] hover:text-white transition duration-150">
+                                                    Fixed Deposit
+                                                </Link>
+                                                <Link to="/unit-trust-rates" className="block px-4 py-2 text-sm hover:bg-[#10cfc8] hover:text-white transition duration-150">
+                                                    Unit Trust
+                                                </Link>
+                                                <Link to="/bonds" className="block px-4 py-2 text-sm hover:bg-[#10cfc8] hover:text-white transition duration-150">
+                                                    Bond Market
+                                                </Link>
+                                                <Link to="/share-market" className="block px-4 py-2 text-sm hover:bg-[#10cfc8] hover:text-white transition duration-150">
+                                                    Share Market
+                                                </Link>
+                                                <Link to="/gold-market" className="block px-4 py-2 text-sm hover:bg-[#10cfc8] hover:text-white transition duration-150">
+                                                    Gold Market
+                                                </Link>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             )}
                         </div>
@@ -113,27 +173,45 @@ const Navbar = () => {
                         </button>
                         {isMobileDropdownOpen && (
                             <div className="pl-4 mt-1 space-y-1">
-                                {[
-                                    { path: "/portfolio-builder", label: "Portfolio Builder" },
-                                    { path: "/saving-account", label: "Saving Account" },
-                                    { path: "/unit-trust-rates", label: "Unit Trust" },
-                                    { path: "/fixed-deposit", label: "Fixed Deposit" },
-                                    { path: "/bonds", label: "Bonds" },
-                                    { path: "/share-market", label: "Share Market" },
-                                    { path: "/gold-market", label: "Gold Market" },
-                                ].map(({ path, label }) => (
-                                    <Link
-                                        key={path}
-                                        to={path}
-                                        className="block text-[#ffffff] hover:text-[#181E23] transition duration-150"
-                                        onClick={() => {
-                                            setIsOpen(false);
-                                            setIsMobileDropdownOpen(false);
-                                        }}
+                                <Link
+                                    to="/portfolio-builder"
+                                    className="block text-[#ffffff] hover:text-[#181E23] transition duration-150"
+                                    onClick={() => {
+                                        setIsOpen(false);
+                                        setIsMobileDropdownOpen(false);
+                                    }}
+                                >
+                                    Investment Planner
+                                </Link>
+                                <Link
+                                    to="/advisor"
+                                    className="block text-[#ffffff] hover:text-[#181E23] transition duration-150"
+                                    onClick={() => {
+                                        setIsOpen(false);
+                                        setIsMobileDropdownOpen(false);
+                                    }}
+                                >
+                                    Talk to an Advisor
+                                </Link>
+                                {/* Market Insights Mobile Submenu */}
+                                <div>
+                                    <button
+                                        onClick={() => setIsMobileMarketDropdownOpen(!isMobileMarketDropdownOpen)}
+                                        className="block w-full text-left text-[#ffffff] hover:text-[#181E23] pl-2"
                                     >
-                                        {label}
-                                    </Link>
-                                ))}
+                                        Market Insights ▾
+                                    </button>
+                                    {isMobileMarketDropdownOpen && (
+                                        <div className="pl-4 mt-1 space-y-1">
+                                            <Link to="/saving-account" className="block text-[#ffffff] hover:text-[#181E23] transition duration-150" onClick={() => setIsOpen(false)}>Saving &amp; Current Accounts</Link>
+                                            <Link to="/fixed-deposit" className="block text-[#ffffff] hover:text-[#181E23] transition duration-150" onClick={() => setIsOpen(false)}>Fixed Deposit</Link>
+                                            <Link to="/unit-trust-rates" className="block text-[#ffffff] hover:text-[#181E23] transition duration-150" onClick={() => setIsOpen(false)}>Unit Trust</Link>
+                                            <Link to="/bonds" className="block text-[#ffffff] hover:text-[#181E23] transition duration-150" onClick={() => setIsOpen(false)}>Bond Market</Link>
+                                            <Link to="/share-market" className="block text-[#ffffff] hover:text-[#181E23] transition duration-150" onClick={() => setIsOpen(false)}>Share Market</Link>
+                                            <Link to="/gold-market" className="block text-[#ffffff] hover:text-[#181E23] transition duration-150" onClick={() => setIsOpen(false)}>Gold Market</Link>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         )}
                     </div>
