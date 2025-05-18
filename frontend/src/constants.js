@@ -1,4 +1,4 @@
-export const API_BASE_URL = "https://skyran-1.vercel.app/";
+export const API_BASE_URL = "https://skyran-1.vercel.app";
 
 export const COLOR_DARK = "#181E23";
 export const COLOR_PRIMARY = "#18426c";
