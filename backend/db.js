@@ -1,12 +1,19 @@
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const dotenv = require('dotenv');
+const fs = require('fs');
+
+
 dotenv.config({ path: '.env' });
 
 const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
     user: process.env.DATABASE_ROOT,
+    port: process.env.DATABASE_PORT,
     password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE
+    database: process.env.DATABASE,
+    ssl: {
+    ca: fs.readFileSync('ca.pem')
+  }
 });
 
 db.connect((error) => {
