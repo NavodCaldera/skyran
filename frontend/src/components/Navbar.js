@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
@@ -7,55 +7,26 @@ const Navbar = () => {
     const [isMarketDropdownOpen, setIsMarketDropdownOpen] = useState(false); // Desktop Market Insights submenu
     const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false); // Mobile dropdown
     const [isMobileMarketDropdownOpen, setIsMobileMarketDropdownOpen] = useState(false); // Mobile Market Insights submenu
-    const [showHeader, setShowHeader] = useState(true); // For scroll-down reveal
-    const [isFloating, setIsFloating] = useState(false); // For oval/floating effect
+    const [showHeader, setShowHeader] = useState(true); // Scroll reveal state
     const dropdownRef = useRef(null);
-    const lastScrollY = useRef(0);
-
-    // Scroll-down Reveal Header for desktop
-    useEffect(() => {
-        const handleScroll = () => {
-            if (window.innerWidth < 768) return; // Only desktop
-            const currentScrollY = window.scrollY;
-            if (currentScrollY <= 0) {
-                setShowHeader(true);
-                setIsFloating(false);
-            } else if (currentScrollY > lastScrollY.current) {
-                // Scrolling down
-                setShowHeader(false);
-            } else {
-                // Scrolling up
-                setShowHeader(true);
-                setIsFloating(true);
-            }
-            lastScrollY.current = currentScrollY;
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
 
     return (
         <nav
             className={`
-        bg-[#18426c] text-[#fff] shadow-md transition-all duration-300
-        ${isFloating
-            // No oval, just sticky/fixed with normal corners
-            ? 'md:fixed md:top-6 md:left-1/2 md:-translate-x-1/2 md:z-50 md:w-[95vw] md:max-w-7xl md:bg-[#18426c]/90 md:shadow-2xl md:border md:border-[#10cfc8]/30 md:px-6 md:py-1 md:backdrop-blur-md rounded-2xl'
-            : 'md:sticky md:top-0 md:left-0 md:shadow-md md:border-none md:px-0 md:py-1'
-        }
-        ${showHeader ? 'md:opacity-100 md:pointer-events-auto' : 'md:opacity-0 md:pointer-events-none'}
-    `}
-            style={{
-                transition: 'opacity 0.3s, top 0.3s',
-            }}
+                bg-[#18426c] text-white shadow-md transition-all duration-300
+                sticky top-0 left-0 w-full z-50 px-0 rounded-none
+                ${showHeader ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
+            `}
+            style={{ transition: 'opacity 0.3s, top 0.3s' }}
         >
+            {/* Navbar Container */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className={`flex justify-between items-center py-4 ${isFloating ? 'md:h-12' : 'md:h-16'}`}>
-                    {/* Logo and Name on the left */}
+                <div className="flex justify-between items-center h-16">
+                    {/* Logo Section */}
                     <div className="flex items-center">
                         <Link to="/" className="flex items-center space-x-2">
                             <img src="/logo.png" alt="Logo" className="h-9 w-9" />
-                            <span className="text-[#fff] font-semibold text-3xl tracking-wide">Skyran</span>
+                            <span className="text-white font-semibold text-3xl tracking-wide">Skyran</span>
                         </Link>
                     </div>
 
@@ -65,10 +36,11 @@ const Navbar = () => {
                         <div className="relative" ref={dropdownRef}>
                             <button
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="text-[#fff] hover:text-[#181E23] text-base transition-colors duration-200"
+                                className="text-white hover:text-[#181E23] text-base transition-colors duration-200"
                             >
                                 Features ▾
                             </button>
+
                             {isDropdownOpen && (
                                 <div className="absolute z-10 mt-2 w-56 bg-[#2E3944] rounded-lg shadow-lg py-2">
                                     <Link
@@ -83,6 +55,7 @@ const Navbar = () => {
                                     >
                                         Talk to an Advisor
                                     </Link>
+
                                     {/* Market Insights Submenu */}
                                     <div
                                         className="relative group"
@@ -97,8 +70,9 @@ const Navbar = () => {
                                             Market Insights
                                             <span className="ml-2">▶</span>
                                         </button>
+
                                         {isMarketDropdownOpen && (
-                                            <div className="absolute left-full top-0 mt-0 w-64 bg-[#2E3944] rounded-lg shadow-lg py-2 z-20">
+                                            <div className="absolute left-full top-0 w-64 bg-[#2E3944] rounded-lg shadow-lg py-2 z-20">
                                                 <Link to="/saving-account" className="block px-4 py-2 text-sm hover:bg-[#10cfc8] hover:text-white transition duration-150">
                                                     Saving &amp; Current Accounts
                                                 </Link>
@@ -124,19 +98,19 @@ const Navbar = () => {
                             )}
                         </div>
 
-                        {/* Other Desktop Links */}
-                        <Link to="/dashboard" className="text-[#fff] hover:text-[#181E23] text-base transition-colors duration-200">
+                        {/* Other Links */}
+                        <Link to="/dashboard" className="text-white hover:text-[#181E23] text-base transition-colors duration-200">
                             Dashboard
                         </Link>
-                        <Link to="/learn" className="text-[#fff] hover:text-[#181E23] text-base transition-colors duration-200">
+                        <Link to="/learn" className="text-white hover:text-[#181E23] text-base transition-colors duration-200">
                             Learn
                         </Link>
-                        <Link to="/login" className="text-[#fff] hover:text-[#181E23] transition duration-200">
+                        <Link to="/login" className="text-white hover:text-[#181E23] transition duration-200">
                             Login
                         </Link>
                         <Link
                             to="/signup"
-                            className="bg-[#10cfc8] text-[#fff] px-4 py-2 rounded-lg hover:text-[#181E23] transition duration-200"
+                            className="bg-[#10cfc8] text-white px-4 py-2 rounded-lg hover:text-[#181E23] transition duration-200"
                         >
                             Sign Up
                         </Link>
@@ -146,7 +120,7 @@ const Navbar = () => {
                     <div className="md:hidden">
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="text-[#fff] hover:text-[#181E23]"
+                            className="text-white hover:text-[#181E23]"
                         >
                             <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 {isOpen ? (
@@ -163,19 +137,20 @@ const Navbar = () => {
             {/* Mobile Menu Content */}
             {isOpen && (
                 <div className="md:hidden bg-[#14778f] px-4 py-4 space-y-2">
-                    {/* Features Dropdown - Mobile */}
+                    {/* Mobile Features Dropdown */}
                     <div>
                         <button
                             onClick={() => setIsMobileDropdownOpen(!isMobileDropdownOpen)}
-                            className="block w-full text-left text-[#ffffff] hover:text-[#181E23]"
+                            className="block w-full text-left text-white hover:text-[#181E23]"
                         >
                             Features ▾
                         </button>
+
                         {isMobileDropdownOpen && (
                             <div className="pl-4 mt-1 space-y-1">
                                 <Link
                                     to="/portfolio-builder"
-                                    className="block text-[#ffffff] hover:text-[#181E23] transition duration-150"
+                                    className="block text-white hover:text-[#181E23] transition duration-150"
                                     onClick={() => {
                                         setIsOpen(false);
                                         setIsMobileDropdownOpen(false);
@@ -185,7 +160,7 @@ const Navbar = () => {
                                 </Link>
                                 <Link
                                     to="/advisor"
-                                    className="block text-[#ffffff] hover:text-[#181E23] transition duration-150"
+                                    className="block text-white hover:text-[#181E23] transition duration-150"
                                     onClick={() => {
                                         setIsOpen(false);
                                         setIsMobileDropdownOpen(false);
@@ -193,22 +168,24 @@ const Navbar = () => {
                                 >
                                     Talk to an Advisor
                                 </Link>
-                                {/* Market Insights Mobile Submenu */}
+
+                                {/* Mobile Market Insights Submenu */}
                                 <div>
                                     <button
                                         onClick={() => setIsMobileMarketDropdownOpen(!isMobileMarketDropdownOpen)}
-                                        className="block w-full text-left text-[#ffffff] hover:text-[#181E23] pl-2"
+                                        className="block w-full text-left text-white hover:text-[#181E23] pl-2"
                                     >
                                         Market Insights ▾
                                     </button>
+
                                     {isMobileMarketDropdownOpen && (
                                         <div className="pl-4 mt-1 space-y-1">
-                                            <Link to="/saving-account" className="block text-[#ffffff] hover:text-[#181E23] transition duration-150" onClick={() => setIsOpen(false)}>Saving &amp; Current Accounts</Link>
-                                            <Link to="/fixed-deposit" className="block text-[#ffffff] hover:text-[#181E23] transition duration-150" onClick={() => setIsOpen(false)}>Fixed Deposit</Link>
-                                            <Link to="/unit-trust-rates" className="block text-[#ffffff] hover:text-[#181E23] transition duration-150" onClick={() => setIsOpen(false)}>Unit Trust</Link>
-                                            <Link to="/bonds" className="block text-[#ffffff] hover:text-[#181E23] transition duration-150" onClick={() => setIsOpen(false)}>Bond Market</Link>
-                                            <Link to="/share-market" className="block text-[#ffffff] hover:text-[#181E23] transition duration-150" onClick={() => setIsOpen(false)}>Share Market</Link>
-                                            <Link to="/gold-market" className="block text-[#ffffff] hover:text-[#181E23] transition duration-150" onClick={() => setIsOpen(false)}>Gold Market</Link>
+                                            <Link to="/saving-account" className="block text-white hover:text-[#181E23] transition duration-150" onClick={() => setIsOpen(false)}>Saving &amp; Current Accounts</Link>
+                                            <Link to="/fixed-deposit" className="block text-white hover:text-[#181E23] transition duration-150" onClick={() => setIsOpen(false)}>Fixed Deposit</Link>
+                                            <Link to="/unit-trust-rates" className="block text-white hover:text-[#181E23] transition duration-150" onClick={() => setIsOpen(false)}>Unit Trust</Link>
+                                            <Link to="/bonds" className="block text-white hover:text-[#181E23] transition duration-150" onClick={() => setIsOpen(false)}>Bond Market</Link>
+                                            <Link to="/share-market" className="block text-white hover:text-[#181E23] transition duration-150" onClick={() => setIsOpen(false)}>Share Market</Link>
+                                            <Link to="/gold-market" className="block text-white hover:text-[#181E23] transition duration-150" onClick={() => setIsOpen(false)}>Gold Market</Link>
                                         </div>
                                     )}
                                 </div>
@@ -217,13 +194,13 @@ const Navbar = () => {
                     </div>
 
                     {/* Other Mobile Links */}
-                    <Link to="/dashboard" className="block text-[#ffffff] hover:text-[#181E23]" onClick={() => setIsOpen(false)}>
+                    <Link to="/dashboard" className="block text-white hover:text-[#181E23]" onClick={() => setIsOpen(false)}>
                         Dashboard
                     </Link>
-                    <Link to="/learn" className="block text-[#ffffff] hover:text-[#181E23]" onClick={() => setIsOpen(false)}>
+                    <Link to="/learn" className="block text-white hover:text-[#181E23]" onClick={() => setIsOpen(false)}>
                         Learn
                     </Link>
-                    <Link to="/login" className="block text-[#ffffff] hover:text-[#181E23]" onClick={() => setIsOpen(false)}>
+                    <Link to="/login" className="block text-white hover:text-[#181E23]" onClick={() => setIsOpen(false)}>
                         Login
                     </Link>
                     <Link

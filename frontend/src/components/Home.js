@@ -4,7 +4,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 import { Pagination, Autoplay } from 'swiper/modules';
-
+import { COLOR_DARK, COLOR_PRIMARY, COLOR_ACCENT, COLOR_SECONDARY } from '../constants';
 
 const Home = () => {
   const [openIndex, setOpenIndex] = useState(null);
@@ -57,6 +57,93 @@ const Home = () => {
           <img src="/assets/dashboard.jpg" alt="Dashboard" className="max-w-full h-auto rounded-xl shadow-lg" />
         </div>
       </div>
+
+
+      {/* Opportunities Section */}
+      <div id="opportunities" className="w-full text-center py-20 mx-auto max-w-screen-xl">
+        <div className="flex justify-center">
+          <div className="flip-card max-w-sm">
+            <div className="flip-card-inner rounded-lg shadow-sm" style={{ backgroundColor: COLOR_PRIMARY, borderColor: COLOR_SECONDARY }}>
+              {/* Front Side */}
+              <div className="flip-card-front rounded-lg shadow-sm flex flex-col items-center">
+                <a href="#">
+                  <img className="rounded-t-lg" src="/assets/saving-rates.jpg" alt="" />
+                </a>
+                <div className="p-5">
+                  <a href="#">
+                    <h5
+                      className="mb-2 text-2xl font-bold tracking-tight"
+                      style={{ color: "#fff" }} // White color for Saving Account
+                    >
+                      Saving Account
+                    </h5>
+                  </a>
+                  <p className="mb-3 font-normal text-white">
+                    A savings account is a secure place to store money while earning interest, helping individuals manage their finances and plan for the future.
+                  </p>
+                </div>
+              </div>
+              {/* Back Side */}
+              <div className="flip-card-back rounded-lg shadow-sm flex flex-col items-center justify-center p-5" style={{ backgroundColor: COLOR_SECONDARY }}>
+                <div className="mb-3 font-normal text-white text-center">
+                  <strong>Benefits:</strong>
+                  <ul className="list-disc list-inside mt-2 space-y-1">
+                    <li>Safe Storage – Protects your money securely.</li>
+                    <li>Earn Interest – Grows your savings over time.</li>
+                    <li>Easy Access – Allows quick withdrawals when needed.</li>
+                  </ul>
+                </div>
+                <a
+                  href="#"
+                  className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg mt-4 hover:text-[#181E23]"
+                  style={{ backgroundColor: COLOR_ACCENT }}
+                >
+                  Read more
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style>
+        {`
+.flip-card {
+  perspective: 1000px;
+  width: 100%;
+  max-width: 350px;
+  min-height: 400px;
+}
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+.flip-card:hover .flip-card-inner,
+.flip-card:focus-within .flip-card-inner {
+  transform: rotateY(180deg);
+}
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  min-height: 400px;
+  backface-visibility: hidden;
+}
+.flip-card-front {
+  z-index: 2;
+}
+.flip-card-back {
+  transform: rotateY(180deg);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+`}
+      </style>
+
 
       {/* Opportunities Section */}
       <div id="opportunities" className="w-full text-center py-20 bg-[#ffffff] mx-auto max-w-screen-xl">
