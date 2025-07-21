@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { DEEP_SPACE_BLUE, LUMINOUS_ACCENT, CORPORATE_NAVY, LIGHT_SLATE, MID_SLATE } from '../constants';
 
 const UnitTrustRates = () => {
     const [selectedCategory, setSelectedCategory] = useState("");

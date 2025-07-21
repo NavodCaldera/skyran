@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { COLOR_DARK, COLOR_PRIMARY, COLOR_ACCENT, COLOR_SECONDARY } from '../constants';
+import {
+  DEEP_SPACE_BLUE,
+  CORPORATE_NAVY,
+  CYBER_TEAL,
+  LUMINOUS_ACCENT,
+  LIGHT_SLATE,
+  MID_SLATE
+} from '../constants';
 
 const banks = ["Bank of Ceylon", "Commercial Bank", "Sampath Bank", "HNB", "Peoples Bank"];
 const accountTypes = ["Saving", "Current"];
@@ -44,13 +51,20 @@ const SavingAccount = () => {
   );
 
   return (
-    <div className="max-w-7xl mx-auto p-6" style={{ backgroundColor: "#fff" }}>
-      {/* Title */}
-      <div className="text-center mb-6">
-        <h1 className="text-4xl font-bold font-sans text-transparent bg-clip-text bg-gradient-to-t from-[#181E23] via-[#18426c] to-[#10cfc8] leading-[1.3] pb-4">
-          Saving & Current Accounts
-        </h1>
-      </div>
+    <div
+      className="min-h-screen"
+      style={{ backgroundColor: DEEP_SPACE_BLUE }}
+    >
+      <div className="max-w-7xl mx-auto p-6">
+        {/* Title */}
+        <div className="text-center mb-6">
+          <h1
+            className="text-4xl font-bold font-sans leading-[1.3] pb-4"
+            style={{ color: LUMINOUS_ACCENT }}
+          >
+            Saving & Current Accounts
+          </h1>
+        </div>
 
       {/* Search Bars */}
       <div className="flex flex-col md:flex-row gap-8 justify-center mb-8">
@@ -106,18 +120,64 @@ const SavingAccount = () => {
         </div>
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto">
-  <table className="min-w-full bg-white border border-gray-300 rounded-lg">
-    <thead style={{ backgroundColor: COLOR_PRIMARY }}>
-      <tr>
-        <th className="py-3 px-4 text-left text-white border border-gray-300">Bank Name</th>
-        <th className="py-3 px-4 text-left text-white border border-gray-300">Account Type</th>
-        <th className="py-3 px-4 text-left text-white border border-gray-300">Category</th>
-        <th className="py-3 px-4 text-left text-white border border-gray-300">Minimum Deposit Amount</th>
-        <th className="py-3 px-4 text-left text-white border border-gray-300">Rate</th>
-      </tr>
-    </thead>
+        {/* Table */}
+        <div className="overflow-x-auto">
+          <table
+            className="min-w-full rounded-lg"
+            style={{
+              backgroundColor: CORPORATE_NAVY,
+              border: `1px solid ${MID_SLATE}`
+            }}
+          >
+            <thead style={{ backgroundColor: CORPORATE_NAVY }}>
+              <tr>
+                <th
+                  className="py-3 px-4 text-left border"
+                  style={{
+                    color: LIGHT_SLATE,
+                    borderColor: MID_SLATE
+                  }}
+                >
+                  Bank Name
+                </th>
+                <th
+                  className="py-3 px-4 text-left border"
+                  style={{
+                    color: LIGHT_SLATE,
+                    borderColor: MID_SLATE
+                  }}
+                >
+                  Account Type
+                </th>
+                <th
+                  className="py-3 px-4 text-left border"
+                  style={{
+                    color: LIGHT_SLATE,
+                    borderColor: MID_SLATE
+                  }}
+                >
+                  Category
+                </th>
+                <th
+                  className="py-3 px-4 text-left border"
+                  style={{
+                    color: LIGHT_SLATE,
+                    borderColor: MID_SLATE
+                  }}
+                >
+                  Minimum Deposit Amount
+                </th>
+                <th
+                  className="py-3 px-4 text-left border"
+                  style={{
+                    color: LIGHT_SLATE,
+                    borderColor: MID_SLATE
+                  }}
+                >
+                  Rate
+                </th>
+              </tr>
+            </thead>
     <tbody>
       {filteredData.length === 0 ? (
         <tr>
@@ -135,8 +195,9 @@ const SavingAccount = () => {
         ))
       )}
     </tbody>
-  </table>
-</div>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };

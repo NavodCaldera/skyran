@@ -2,6 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from './components/Navbar';
 import Home from './components/Home';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import AdvisorHub from './components/AdvisorHub';
 import UnitTrustRates from './components/UnitTrustRates';
 import Bonds from './components/Bonds';
 import Fixeddeposit from './components/Fixeddeposit';
@@ -17,6 +20,9 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/talk-to-an-advisor" element={<AdvisorHub />} />
         <Route path="/unit-trust-rates" element={<UnitTrustRates />} />
         <Route path="/bonds" element={<Bonds />} />
         <Route path="/fixed-deposit" element={<Fixeddeposit />} />
