@@ -5,6 +5,7 @@ const registerSchema = Joi.object({
     last_name: Joi.string().required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(6).required(),
+    confirmPassword: Joi.string().min(6),
     birthday: Joi.date().required()
 });
 
