@@ -10,8 +10,12 @@ const Navbar = () => {
     const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false); // Mobile dropdown
     const [isMobileMarketDropdownOpen, setIsMobileMarketDropdownOpen] = useState(false); // Mobile Market Insights submenu
     const [isScrolled, setIsScrolled] = useState(false); // Scroll state for navbar styling
+    const [isNavbarVisible, setIsNavbarVisible] = useState(true); // Auto-hide navbar state
     const dropdownRef = useRef(null);
     const marketDropdownRef = useRef(null);
+
+    // Check if we're on the learn page
+    const isLearnPage = location.pathname === '/learn';
 
     // Handle scroll effect
     useEffect(() => {
@@ -23,6 +27,48 @@ const Navbar = () => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    // Handle auto-hide navbar on learn page
+    useEffect(() => {
+        if (!isLearnPage) {
+            setIsNavbarVisible(true);
+            return;
+        }
+
+        let hideTimeout;
+
+        const handleMouseMove = (e) => {
+            const mouseY = e.clientY;
+
+            // Show navbar when mouse is in top 100px of screen
+            if (mouseY <= 100) {
+                setIsNavbarVisible(true);
+                // Clear any existing hide timeout
+                if (hideTimeout) {
+                    clearTimeout(hideTimeout);
+                }
+            } else if (mouseY > 150) {
+                // Hide navbar when mouse moves away from top area
+                // Add a delay before hiding
+                hideTimeout = setTimeout(() => {
+                    setIsNavbarVisible(false);
+                }, 1000); // Hide after 1 second
+            }
+        };
+
+        // Initially hide navbar on learn page after a short delay
+        const initialHideTimeout = setTimeout(() => {
+            setIsNavbarVisible(false);
+        }, 2000); // Hide after 2 seconds
+
+        window.addEventListener('mousemove', handleMouseMove);
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            if (hideTimeout) clearTimeout(hideTimeout);
+            if (initialHideTimeout) clearTimeout(initialHideTimeout);
+        };
+    }, [isLearnPage]);
 
     // Handle click outside to close dropdowns
     useEffect(() => {
@@ -72,15 +118,18 @@ const Navbar = () => {
     return (
         <nav
             className={`
-                shadow-lg transition-all duration-300 ease-in-out
-                sticky top-0 left-0 w-full z-50
+                shadow-lg transition-all duration-500 ease-in-out
+                sticky left-0 w-full z-50
                 ${isScrolled ? 'backdrop-blur-md bg-opacity-95' : 'bg-opacity-100'}
+                ${isLearnPage && !isNavbarVisible ? '-top-20' : 'top-0'}
             `}
             style={{
                 backgroundColor: isScrolled ? `${DEEP_SPACE_BLUE}F0` : DEEP_SPACE_BLUE,
                 color: LIGHT_SLATE,
                 borderBottom: `1px solid ${isScrolled ? CYBER_TEAL : MID_SLATE}`,
-                boxShadow: isScrolled ? `0 4px 20px rgba(16, 207, 200, 0.1)` : `0 2px 10px rgba(0, 0, 0, 0.1)`
+                boxShadow: isScrolled ? `0 4px 20px rgba(16, 207, 200, 0.1)` : `0 2px 10px rgba(0, 0, 0, 0.1)`,
+                transform: isLearnPage && !isNavbarVisible ? 'translateY(-100%)' : 'translateY(0)',
+                opacity: isLearnPage && !isNavbarVisible ? 0 : 1
             }}
         >
             {/* Navbar Container */}

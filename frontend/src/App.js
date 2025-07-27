@@ -12,6 +12,7 @@ import Goldmarket from './components/Goldmarket';
 import Portfoliobuilder from './components/Portfoliobuilder';
 import Savingaccount from './components/Savingaccount';
 import Sharemarket from './components/Sharemarket';
+import WealthWise from './components/learn';
 import './App.css';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/portfolio-builder" element={<Portfoliobuilder />} />
         <Route path="/saving-account" element={<Savingaccount />} />
         <Route path="/share-market" element={<Sharemarket />} />
+        <Route path="/learn" element={<WealthWise />} />
       </Routes>
     </Router>
   );
