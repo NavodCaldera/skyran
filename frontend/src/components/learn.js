@@ -11,9 +11,8 @@ import {
   LUMINOUS_ACCENT,
   LIGHT_SLATE,
   MID_SLATE,
-  VIBRANT_GREEN,
-  WARNING_AMBER,
-  ERROR_RED
+  CHART_SKY_BLUE,
+  CHART_PURPLE
 } from '../constants';
 
 // --- SIMPLIFIED WEALTHWISE CONFIGURATION ---
@@ -139,8 +138,8 @@ const LeftNavbar = ({ activeTab = 'LEARN' }) => {
       <div className="p-4 border-t" style={{ borderColor: MID_SLATE }}>
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center space-x-1">
-            <FaFire style={{ color: WARNING_AMBER }} />
-            <span className="text-sm font-bold" style={{ color: WARNING_AMBER }}>7</span>
+            <FaFire style={{ color: CHART_SKY_BLUE }} />
+            <span className="text-sm font-bold" style={{ color: CHART_SKY_BLUE }}>7</span>
           </div>
           <div className="flex items-center space-x-1">
             <FaGem style={{ color: CYBER_TEAL }} />
@@ -178,7 +177,7 @@ const RightSidebar = () => {
           }}
         >
           <div className="flex items-center space-x-2 mb-3">
-            <FaCrown style={{ color: WARNING_AMBER }} />
+            <FaCrown style={{ color: CHART_SKY_BLUE }} />
             <h3 className="font-bold text-lg" style={{ color: LUMINOUS_ACCENT }}>
               Unlock WealthWise Pro
             </h3>
@@ -236,14 +235,14 @@ const RightSidebar = () => {
           }}
         >
           <h4 className="font-bold mb-4 flex items-center space-x-2">
-            <FaBullseye style={{ color: VIBRANT_GREEN }} />
+            <FaBullseye style={{ color: CYBER_TEAL }} />
             <span style={{ color: LIGHT_SLATE }}>Daily Challenges</span>
           </h4>
 
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <FaBolt className="text-sm" style={{ color: WARNING_AMBER }} />
+                <FaBolt className="text-sm" style={{ color: CHART_SKY_BLUE }} />
                 <span className="text-sm" style={{ color: LIGHT_SLATE }}>
                   Earn 20 Wisdom Points
                 </span>
@@ -255,19 +254,19 @@ const RightSidebar = () => {
                 className="h-1 rounded-full"
                 style={{
                   width: '75%',
-                  backgroundColor: WARNING_AMBER
+                  backgroundColor: CHART_SKY_BLUE
                 }}
               />
             </div>
 
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <FaCheckCircle className="text-sm" style={{ color: VIBRANT_GREEN }} />
+                <FaCheckCircle className="text-sm" style={{ color: CYBER_TEAL }} />
                 <span className="text-sm" style={{ color: LIGHT_SLATE }}>
                   Complete lesson with 100% accuracy
                 </span>
               </div>
-              <FaCheckCircle className="text-sm" style={{ color: VIBRANT_GREEN }} />
+              <FaCheckCircle className="text-sm" style={{ color: CYBER_TEAL }} />
             </div>
           </div>
         </div>
@@ -319,16 +318,16 @@ const LessonNode = ({ lesson, onClick, isCurrentLesson }) => {
     switch (lesson.status) {
       case 'current':
         return {
-          backgroundColor: VIBRANT_GREEN,
-          border: `4px solid ${VIBRANT_GREEN}`,
-          boxShadow: `0 0 20px ${VIBRANT_GREEN}60`,
+          backgroundColor: CYBER_TEAL,
+          border: `4px solid ${CYBER_TEAL}`,
+          boxShadow: `0 0 20px ${CYBER_TEAL}60`,
           transform: 'scale(1.1)'
         };
       case 'completed':
         return {
-          backgroundColor: WARNING_AMBER,
-          border: `4px solid ${WARNING_AMBER}`,
-          color: '#000'
+          backgroundColor: CHART_SKY_BLUE,
+          border: `4px solid ${CHART_SKY_BLUE}`,
+          color: DEEP_SPACE_BLUE
         };
       case 'locked':
       default:
@@ -416,7 +415,7 @@ const LessonNode = ({ lesson, onClick, isCurrentLesson }) => {
       {/* Connecting Line to Next Lesson */}
       <div
         className="w-1 h-8 mt-2"
-        style={{ backgroundColor: lesson.status === 'completed' ? VIBRANT_GREEN : MID_SLATE }}
+        style={{ backgroundColor: lesson.status === 'completed' ? CYBER_TEAL : MID_SLATE }}
       />
     </div>
   );
@@ -426,8 +425,8 @@ const UnitHeader = ({ unit }) => (
   <div
     className="w-full p-6 rounded-lg mb-8 border-l-4"
     style={{
-      backgroundColor: VIBRANT_GREEN,
-      borderColor: '#00A86B',
+      backgroundColor: CYBER_TEAL,
+      borderColor: CHART_SKY_BLUE,
       color: 'white'
     }}
   >
@@ -437,7 +436,7 @@ const UnitHeader = ({ unit }) => (
         <h3 className="text-xl font-bold">{unit.subtitle}</h3>
       </div>
       <button
-        className="px-4 py-2 rounded-lg border-2 border-white bg-transparent hover:bg-white hover:text-green-600 transition-colors duration-200"
+        className="px-4 py-2 rounded-lg border-2 border-white bg-transparent hover:bg-white hover:text-cyan-600 transition-colors duration-200"
       >
         GUIDEBOOK
       </button>
@@ -498,7 +497,7 @@ const LessonPopup = ({ lesson, onStart, onClose }) => {
         <div className="mb-4">
           <div
             className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center"
-            style={{ backgroundColor: VIBRANT_GREEN }}
+            style={{ backgroundColor: CYBER_TEAL }}
           >
             <FaStar className="text-white text-2xl" />
           </div>
@@ -514,9 +513,9 @@ const LessonPopup = ({ lesson, onStart, onClose }) => {
           onClick={() => onStart(lesson)}
           className="w-full py-4 rounded-lg font-bold text-lg transition-all duration-200 hover:scale-105"
           style={{
-            backgroundColor: VIBRANT_GREEN,
+            backgroundColor: CYBER_TEAL,
             color: 'white',
-            boxShadow: `0 4px 12px ${VIBRANT_GREEN}40`
+            boxShadow: `0 4px 12px ${CYBER_TEAL}40`
           }}
         >
           START +{lesson.xp} XP
@@ -585,7 +584,7 @@ const ExerciseInterface = ({ exercise, onComplete, onExit }) => {
               className="h-2 rounded-full transition-all duration-500"
               style={{
                 width: '20%',
-                backgroundColor: VIBRANT_GREEN
+                backgroundColor: CYBER_TEAL
               }}
             />
           </div>
@@ -597,7 +596,7 @@ const ExerciseInterface = ({ exercise, onComplete, onExit }) => {
               key={i}
               className="text-lg"
               style={{
-                color: i < hearts ? ERROR_RED : MID_SLATE
+                color: i < hearts ? CHART_PURPLE : MID_SLATE
               }}
             />
           ))}
@@ -659,7 +658,7 @@ const ExerciseInterface = ({ exercise, onComplete, onExit }) => {
             <div
               className="p-4 rounded-lg mb-8"
               style={{
-                backgroundColor: isCorrect ? VIBRANT_GREEN : ERROR_RED,
+                backgroundColor: isCorrect ? CYBER_TEAL : CHART_PURPLE,
                 color: 'white'
               }}
             >
@@ -693,7 +692,7 @@ const ExerciseInterface = ({ exercise, onComplete, onExit }) => {
           }`}
           style={{
             backgroundColor: (!selectedAnswer && !showResult) ? MID_SLATE :
-                           showResult ? (isCorrect ? VIBRANT_GREEN : ERROR_RED) : CYBER_TEAL,
+                           showResult ? (isCorrect ? CYBER_TEAL : CHART_PURPLE) : CYBER_TEAL,
             color: 'white'
           }}
         >
@@ -707,15 +706,15 @@ const ExerciseInterface = ({ exercise, onComplete, onExit }) => {
 const ChoiceButton = ({ icon, title, description, onClick, isCorrect, isIncorrect, disabled }) => {
     const getButtonStyle = () => {
         if (isCorrect) return {
-            backgroundColor: VIBRANT_GREEN,
-            borderColor: VIBRANT_GREEN,
-            boxShadow: `0 0 20px ${VIBRANT_GREEN}40`,
+            backgroundColor: CYBER_TEAL,
+            borderColor: CYBER_TEAL,
+            boxShadow: `0 0 20px ${CYBER_TEAL}40`,
             transform: 'scale(1.05)'
         };
         if (isIncorrect) return {
-            backgroundColor: ERROR_RED,
-            borderColor: ERROR_RED,
-            boxShadow: `0 0 20px ${ERROR_RED}40`,
+            backgroundColor: CHART_PURPLE,
+            borderColor: CHART_PURPLE,
+            boxShadow: `0 0 20px ${CHART_PURPLE}40`,
             animation: 'shake 0.5s ease-in-out'
         };
         return {
@@ -804,8 +803,8 @@ const LessonCompleteScreen = ({ xpEarned, totalXp, streak, onContinue }) => (
                 <div className="flex justify-between items-center">
                     <span style={{ color: MID_SLATE }}>Streak:</span>
                     <div className="flex items-center space-x-1">
-                        <FaFire style={{ color: WARNING_AMBER }} />
-                        <span className="font-bold" style={{ color: WARNING_AMBER }}>
+                        <FaFire style={{ color: CHART_SKY_BLUE }} />
+                        <span className="font-bold" style={{ color: CHART_SKY_BLUE }}>
                             {streak} day{streak !== 1 ? 's' : ''}
                         </span>
                     </div>

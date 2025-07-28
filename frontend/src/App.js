@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import Dashboard from './components/Dashboard';
 import AdvisorHub from './components/AdvisorHub';
 import UnitTrustRates from './components/UnitTrustRates';
 import Bonds from './components/Bonds';
@@ -23,6 +24,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/talk-to-an-advisor" element={<AdvisorHub />} />
         <Route path="/unit-trust-rates" element={<UnitTrustRates />} />
         <Route path="/bonds" element={<Bonds />} />
