@@ -14,6 +14,7 @@ import Portfoliobuilder from './components/Portfoliobuilder';
 import Savingaccount from './components/Savingaccount';
 import Sharemarket from './components/Sharemarket';
 import WealthWise from './components/learn';
+import EducationJourney from './education/EducationJourney';
 import './App.css';
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
         <Route path="/saving-account" element={<Savingaccount />} />
         <Route path="/share-market" element={<Sharemarket />} />
         <Route path="/learn" element={<WealthWise />} />
+        <Route path="/learn/capital-markets-beginner" element={<EducationJourney />} />
       </Routes>
     </Router>
   );

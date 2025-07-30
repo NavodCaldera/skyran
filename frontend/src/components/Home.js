@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 import { Pagination, Autoplay } from 'swiper/modules';
+import { FaChartLine, FaGraduationCap, FaCheckCircle, FaLightbulb } from 'react-icons/fa';
 import {
   DEEP_SPACE_BLUE,
   CORPORATE_NAVY,
@@ -16,103 +17,17 @@ import {
 
 const Home = () => {
   const [openIndex, setOpenIndex] = useState(null);
-  const [tourStep, setTourStep] = useState(0); // 0 = initial, 1-5 = tour steps
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const choiceSectionRef = useRef(null);
 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  // Guided Discovery Tour Data - Following your exact plan
-  const tourSteps = [
-    {
-      id: 1,
-      icon: '🏦',
-      title: 'Fixed Deposits',
-      subtitle: 'The Foundation',
-      description: 'The safest place to grow your savings.',
-      position: 'left', // Appears center-left as specified
-      link: '/fixed-deposit'
-    },
-    {
-      id: 2,
-      icon: '🛡️',
-      title: 'Government Securities',
-      subtitle: 'The Secure Step-Up',
-      description: 'Lend to the government for secure returns.',
-      position: 'center-left', // Slightly to the right of first card
-      link: '/bonds'
-    },
-    {
-      id: 3,
-      icon: '📊',
-      title: 'Unit Trusts',
-      subtitle: 'The Smart Mix',
-      description: 'Invest in many assets at once.',
-      position: 'center-right', // Further right, maybe slightly higher
-      link: '/unit-trust-rates'
-    },
-    {
-      id: 4,
-      icon: '📈',
-      title: 'Share Market',
-      subtitle: 'The Growth Engine',
-      description: 'Own a piece of top Sri Lankan companies.',
-      position: 'center', // Moves towards center, representing importance
-      link: '/share-market'
-    },
-    {
-      id: 5,
-      icon: '🚀',
-      title: "You're Ready to Start",
-      subtitle: 'Your Financial Journey',
-      description: "Let's build your personalized financial plan together.",
-      position: 'final', // Center of screen, larger than others
-      link: '/portfolio-builder',
-      isCallToAction: true
-    }
-  ];
-
-  const startTour = () => {
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setTourStep(1);
-      setIsTransitioning(false);
-    }, 500);
+  const handleScrollToChoices = () => {
+    choiceSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const nextStep = () => {
-    if (tourStep < tourSteps.length) {
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setTourStep(tourStep + 1);
-        setIsTransitioning(false);
-      }, 300);
-    }
-  };
 
-  const previousStep = () => {
-    if (tourStep > 1) {
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setTourStep(tourStep - 1);
-        setIsTransitioning(false);
-      }, 300);
-    }
-  };
-
-  const resetTour = () => {
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setTourStep(0);
-      setIsTransitioning(false);
-    }, 300);
-  };
-
-  const getCardPosition = (position) => {
-    // All cards now appear in the center for focused experience
-    return 'left-1/2 transform -translate-x-1/2';
-  };
 
   const faqData = [
     {
@@ -135,291 +50,261 @@ const Home = () => {
 
   return (
     <div>
-      {/* Guided Discovery Tour Hero Section */}
+      {/* Hook Hero Section */}
       <div
         className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center relative overflow-hidden"
         style={{ backgroundImage: "url('/assets/home4.png')" }}
       >
-        {/* Enhanced overlay system - darkens slightly during tour */}
+        {/* Overlay */}
         <div
-          className="absolute inset-0 transition-all duration-700"
+          className="absolute inset-0"
           style={{
-            background: tourStep === 0
-              ? `linear-gradient(180deg,
-                  ${DEEP_SPACE_BLUE}40 0%,
-                  ${DEEP_SPACE_BLUE}60 50%,
-                  ${DEEP_SPACE_BLUE}80 100%
-                )`
-              : `linear-gradient(180deg,
-                  ${DEEP_SPACE_BLUE}60 0%,
-                  ${DEEP_SPACE_BLUE}75 50%,
-                  ${DEEP_SPACE_BLUE}90 100%
-                )`
+            background: `linear-gradient(180deg,
+              ${DEEP_SPACE_BLUE}40 0%,
+              ${DEEP_SPACE_BLUE}60 50%,
+              ${DEEP_SPACE_BLUE}80 100%
+            )`
           }}
         ></div>
 
-        {/* Step 0: Initial State - "Your Financial Sanctuary" */}
-        {tourStep === 0 && (
-          <div
-            className={`relative z-10 text-center px-4 transition-all duration-500 ${
-              isTransitioning ? 'opacity-0 transform translate-y-4' : 'opacity-100 transform translate-y-0'
-            }`}
+        {/* Hero Content */}
+        <div className="relative z-10 text-center px-6">
+          <h1
+            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 drop-shadow-lg"
+            style={{
+              color: LUMINOUS_ACCENT,
+              textShadow: `0 4px 8px ${DEEP_SPACE_BLUE}`
+            }}
           >
-            <h1
-              className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 drop-shadow-lg animate-fade-up"
-              style={{
-                color: LUMINOUS_ACCENT,
-                textShadow: `0 4px 8px ${DEEP_SPACE_BLUE}`
-              }}
-            >
-              Learn Today, Earn for Tomorrow.
-            </h1>
+            Your Financial Sanctuary
+          </h1>
+          <p
+            className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed mb-12"
+            style={{ color: LIGHT_SLATE }}
+          >
+            Whether you're ready to invest or want to learn the ropes, your journey starts here.
+          </p>
 
-            {/* Sri Lankan Community-Focused Button - Encouraging & Reassuring */}
-            <button
-              onClick={startTour}
-              className="group rounded-full border border-white/30 px-8 py-4 text-xl font-semibold text-white transition-all duration-300 hover:border-white/60 hover:bg-white/10 transform hover:scale-105"
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                backdropFilter: 'blur(10px)',
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
-              }}
-            >
-              <span className="flex items-center">
-                Take the First Step
-                <svg className="w-6 h-6 ml-3 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </span>
-            </button>
-
-            {/* Alternative Option 2: Direct & Honest - "See How It Works" */}
-            {/*
-            <button
-              onClick={startTour}
-              className="group rounded-full bg-gradient-to-r from-cyan-400 to-violet-500 px-8 py-4 text-xl font-bold text-white shadow-lg shadow-violet-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/40 transform hover:scale-105"
-            >
-              <span className="flex items-center">
-                See How It Works
-                <svg className="h-6 w-6 ml-3 transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-              </span>
-            </button>
-            */}
-
-            {/* Alternative Option 3: Personal & Aspirational - "Start Your Money Path" */}
-            {/*
-            <button
-              onClick={startTour}
-              className="rounded-full px-8 py-4 text-xl font-semibold transition-all duration-200 active:scale-95 active:shadow-inner transform hover:scale-105"
-              style={{
-                backgroundColor: '#1e293b',
-                color: '#cbd5e1',
-                boxShadow: '4px 4px 8px #0c1a2c, -4px -4px 8px #2a3a4e'
-              }}
-            >
-              <span className="flex items-center">
-                🚀 Start Your Money Path
-              </span>
-            </button>
-            */}
-          </div>
-        )}
-
-        {/* Tour Steps 1-5: Discovery Cards with Position-Based Storytelling */}
-        {tourStep > 0 && tourStep <= tourSteps.length && (
-          <div className="relative z-10 w-full h-full">
-            {tourSteps.map((step, index) => {
-              if (index + 1 !== tourStep) return null;
-
-              return (
-                <div
-                  key={step.id}
-                  className={`absolute top-1/2 transform -translate-y-1/2 transition-all duration-500 ${
-                    isTransitioning ? 'opacity-0 scale-95 translate-y-4' : 'opacity-100 scale-100 translate-y-0'
-                  } ${getCardPosition(step.position)}`}
-                >
-                  <div
-                    className={`p-6 md:p-8 rounded-2xl shadow-2xl border backdrop-blur-md ${
-                      step.isCallToAction ? 'w-80 md:w-96 lg:w-[420px]' : 'w-72 md:w-80 lg:w-96'
-                    }`}
-                    style={{
-                      backgroundColor: step.isCallToAction ? `${CYBER_TEAL}20` : `${CORPORATE_NAVY}F0`,
-                      borderColor: step.isCallToAction ? CYBER_TEAL : `${CYBER_TEAL}60`,
-                      boxShadow: step.isCallToAction
-                        ? `0 25px 50px rgba(0, 0, 0, 0.6), 0 0 0 2px ${CYBER_TEAL}80`
-                        : `0 25px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px ${CYBER_TEAL}40`
-                    }}
-                  >
-                    {/* Card Content */}
-                    <div className="text-center space-y-4 md:space-y-6">
-                      {/* Large Icon */}
-                      <div
-                        className={`mx-auto rounded-full flex items-center justify-center ${
-                          step.isCallToAction ? 'w-16 h-16 md:w-20 md:h-20 text-3xl md:text-4xl' : 'w-12 h-12 md:w-16 md:h-16 text-2xl md:text-3xl'
-                        }`}
-                        style={{
-                          backgroundColor: step.isCallToAction ? `${LUMINOUS_ACCENT}30` : `${CYBER_TEAL}30`,
-                          border: `3px solid ${step.isCallToAction ? LUMINOUS_ACCENT : CYBER_TEAL}`
-                        }}
-                      >
-                        {step.icon}
-                      </div>
-
-                      {/* Title */}
-                      <div>
-                        <h2
-                          className={`font-bold mb-1 ${
-                            step.isCallToAction ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-xl md:text-2xl lg:text-3xl'
-                          }`}
-                          style={{ color: step.isCallToAction ? LUMINOUS_ACCENT : CYBER_TEAL }}
-                        >
-                          {step.title}
-                        </h2>
-                        <p
-                          className="text-xs md:text-sm font-medium opacity-80"
-                          style={{ color: LIGHT_SLATE }}
-                        >
-                          {step.subtitle}
-                        </p>
-                      </div>
-
-                      {/* One-sentence explanation */}
-                      <p
-                        className={`leading-relaxed ${
-                          step.isCallToAction ? 'text-base md:text-lg' : 'text-sm md:text-base'
-                        }`}
-                        style={{ color: LIGHT_SLATE }}
-                      >
-                        {step.description}
-                      </p>
-
-                      {/* Navigation */}
-                      <div className="pt-2 md:pt-4">
-                        {step.isCallToAction ? (
-                          <div className="space-y-4">
-                            {/* Previous button for final step */}
-                            <button
-                              onClick={previousStep}
-                              className="w-full px-6 md:px-8 py-2 md:py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105 border"
-                              style={{
-                                backgroundColor: 'transparent',
-                                color: LIGHT_SLATE,
-                                borderColor: `${MID_SLATE}60`,
-                                boxShadow: `0 2px 8px ${MID_SLATE}20`
-                              }}
-                              onMouseEnter={(e) => {
-                                e.target.style.backgroundColor = `${MID_SLATE}20`;
-                                e.target.style.borderColor = MID_SLATE;
-                              }}
-                              onMouseLeave={(e) => {
-                                e.target.style.backgroundColor = 'transparent';
-                                e.target.style.borderColor = `${MID_SLATE}60`;
-                              }}
-                            >
-                              ← Previous
-                            </button>
-
-                            {/* Main CTA button */}
-                            <Link
-                              to={step.link}
-                              className="block w-full py-3 md:py-4 px-6 md:px-8 rounded-full font-semibold transition-all duration-300 transform hover:scale-105"
-                              style={{
-                                backgroundColor: LUMINOUS_ACCENT,
-                                color: DEEP_SPACE_BLUE,
-                                boxShadow: `0 4px 15px ${LUMINOUS_ACCENT}40`
-                              }}
-                            >
-                              Create My Portfolio
-                            </Link>
-                          </div>
-                        ) : (
-                          <div className="flex justify-between items-center space-x-4">
-                            {/* Previous button (only show if not first step) */}
-                            {tourStep > 1 && (
-                              <button
-                                onClick={previousStep}
-                                className="px-4 md:px-6 py-2 md:py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105 border"
-                                style={{
-                                  backgroundColor: 'transparent',
-                                  color: LIGHT_SLATE,
-                                  borderColor: `${MID_SLATE}60`,
-                                  boxShadow: `0 2px 8px ${MID_SLATE}20`
-                                }}
-                                onMouseEnter={(e) => {
-                                  e.target.style.backgroundColor = `${MID_SLATE}20`;
-                                  e.target.style.borderColor = MID_SLATE;
-                                }}
-                                onMouseLeave={(e) => {
-                                  e.target.style.backgroundColor = 'transparent';
-                                  e.target.style.borderColor = `${MID_SLATE}60`;
-                                }}
-                              >
-                                ← Previous
-                              </button>
-                            )}
-
-                            {/* Next button */}
-                            <button
-                              onClick={nextStep}
-                              className="px-6 md:px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 flex-1"
-                              style={{
-                                backgroundColor: CYBER_TEAL,
-                                color: DEEP_SPACE_BLUE,
-                                boxShadow: `0 4px 15px ${CYBER_TEAL}40`
-                              }}
-                            >
-                              Next →
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Skip Tour Button - positioned under each card */}
-                  <div className="mt-4 text-center">
-                    <button
-                      onClick={resetTour}
-                      className="px-4 py-2 rounded-lg text-xs md:text-sm font-medium transition-all duration-200 opacity-70 hover:opacity-100"
-                      style={{
-                        backgroundColor: `${MID_SLATE}40`,
-                        color: LIGHT_SLATE,
-                        border: `1px solid ${MID_SLATE}60`
-                      }}
-                    >
-                      {tourStep === tourSteps.length ? 'Tour Over' : 'Skip Tour'}
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
+          {/* Single Explore Button */}
+          <button
+            onClick={handleScrollToChoices}
+            className="group rounded-full border border-white/30 px-8 py-4 text-xl font-semibold text-white transition-all duration-300 hover:border-white/60 hover:bg-white/10 transform hover:scale-105"
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(10px)',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+            }}
+          >
+            <span className="flex items-center">
+              Explore Your Path
+              <svg className="w-6 h-6 ml-3 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </span>
+          </button>
+        </div>
       </div>
 
-      {/* CSS Animation for fade-up effect */}
-      <style>
-        {`
-          @keyframes fade-up {
-            0% {
-              opacity: 0;
-              transform: translateY(40px);
-            }
-            100% {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
+      {/* Reveal Section - Choice Cards */}
+      <section
+        ref={choiceSectionRef}
+        className="py-20 px-6"
+        style={{ backgroundColor: DEEP_SPACE_BLUE }}
+      >
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <h2
+              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
+              style={{ color: LUMINOUS_ACCENT }}
+            >
+              Choose Your Path
+            </h2>
+            <p
+              className="text-xl max-w-3xl mx-auto leading-relaxed"
+              style={{ color: LIGHT_SLATE }}
+            >
+              Select the journey that best fits your current financial goals and experience level.
+            </p>
+          </div>
 
-          .animate-fade-up {
-            animation: fade-up 1.5s ease-out forwards;
-            opacity: 0;
-          }
-        `}
-      </style>
+          {/* Two-Column Choice Cards */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+
+            {/* Build My Portfolio Card (Left) */}
+            <Link to="/portfolio-builder" className="group block">
+              <div
+                className="rounded-2xl p-8 border-2 transition-all duration-300 hover:scale-105 hover:shadow-2xl h-full"
+                style={{
+                  backgroundColor: CORPORATE_NAVY,
+                  borderColor: CYBER_TEAL,
+                  boxShadow: `0 10px 30px rgba(41, 217, 201, 0.1)`
+                }}
+              >
+                {/* Icon */}
+                <div className="flex justify-center mb-6">
+                  <div
+                    className="w-20 h-20 rounded-full flex items-center justify-center border-2 group-hover:scale-110 transition-transform duration-300"
+                    style={{
+                      backgroundColor: `${CYBER_TEAL}20`,
+                      borderColor: CYBER_TEAL
+                    }}
+                  >
+                    <FaChartLine
+                      className="text-3xl"
+                      style={{ color: CYBER_TEAL }}
+                    />
+                  </div>
+                </div>
+
+                {/* Title */}
+                <h2
+                  className="text-3xl font-bold text-center mb-4"
+                  style={{ color: CYBER_TEAL }}
+                >
+                  Build My Portfolio
+                </h2>
+
+                {/* Description */}
+                <p
+                  className="text-lg text-center mb-8 leading-relaxed"
+                  style={{ color: LIGHT_SLATE }}
+                >
+                  Ready to invest? Let's create a personalized portfolio based on your financial goals, risk tolerance, and investment preferences.
+                </p>
+
+                {/* Feature List */}
+                <div className="mb-8">
+                  <div className="space-y-3">
+                    {[
+                      'Personalized risk assessment',
+                      'Goal-based portfolio allocation',
+                      'AI-powered recommendations',
+                      'Real-time market insights'
+                    ].map((feature, index) => (
+                      <div key={index} className="flex items-start space-x-3">
+                        <FaCheckCircle
+                          className="text-lg mt-1 flex-shrink-0"
+                          style={{ color: CYBER_TEAL }}
+                        />
+                        <span
+                          className="text-base"
+                          style={{ color: LIGHT_SLATE }}
+                        >
+                          {feature}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* CTA Button */}
+                <button
+                  className="w-full py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-3"
+                  style={{
+                    backgroundColor: CYBER_TEAL,
+                    color: DEEP_SPACE_BLUE
+                  }}
+                >
+                  <span>Start Building →</span>
+                </button>
+              </div>
+            </Link>
+
+            {/* Learn Capital Markets Card (Right) */}
+            <Link to="/learn" className="group block">
+              <div
+                className="rounded-2xl p-8 border-2 transition-all duration-300 hover:scale-105 hover:shadow-2xl h-full"
+                style={{
+                  backgroundColor: CORPORATE_NAVY,
+                  borderColor: MID_SLATE,
+                  boxShadow: `0 10px 30px rgba(0, 0, 0, 0.1)`
+                }}
+              >
+                {/* Icon */}
+                <div className="flex justify-center mb-6">
+                  <div
+                    className="w-20 h-20 rounded-full flex items-center justify-center border-2 group-hover:scale-110 transition-transform duration-300"
+                    style={{
+                      backgroundColor: `${LIGHT_SLATE}20`,
+                      borderColor: LIGHT_SLATE
+                    }}
+                  >
+                    <FaGraduationCap
+                      className="text-3xl"
+                      style={{ color: LIGHT_SLATE }}
+                    />
+                  </div>
+                </div>
+
+                {/* Title */}
+                <h2
+                  className="text-3xl font-bold text-center mb-4"
+                  style={{ color: LIGHT_SLATE }}
+                >
+                  Learn Capital Markets
+                </h2>
+
+                {/* Description */}
+                <p
+                  className="text-lg text-center mb-8 leading-relaxed"
+                  style={{ color: LIGHT_SLATE }}
+                >
+                  New to investing? Explore our comprehensive education center to understand capital markets, investment strategies, and financial planning.
+                </p>
+
+                {/* Feature List */}
+                <div className="mb-8">
+                  <div className="space-y-3">
+                    {[
+                      'Investment fundamentals',
+                      'Market analysis techniques',
+                      'Risk management strategies',
+                      'Portfolio theory basics'
+                    ].map((feature, index) => (
+                      <div key={index} className="flex items-start space-x-3">
+                        <FaCheckCircle
+                          className="text-lg mt-1 flex-shrink-0"
+                          style={{ color: LIGHT_SLATE }}
+                        />
+                        <span
+                          className="text-base"
+                          style={{ color: LIGHT_SLATE }}
+                        >
+                          {feature}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* CTA Button */}
+                <button
+                  className="w-full py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-3"
+                  style={{
+                    backgroundColor: '#f8fafc',
+                    color: DEEP_SPACE_BLUE
+                  }}
+                >
+                  <span>Start Learning →</span>
+                </button>
+              </div>
+            </Link>
+
+          </div>
+
+          {/* Switch Modes Hint */}
+          <div className="text-center mt-12">
+            <p
+              className="text-lg flex items-center justify-center space-x-2"
+              style={{ color: MID_SLATE }}
+            >
+              <FaLightbulb className="text-yellow-400" />
+              <span>You can always switch between modes at any time.</span>
+            </p>
+          </div>
+        </div>
+      </section>
 
 
 
