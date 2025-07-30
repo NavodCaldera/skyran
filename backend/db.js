@@ -168,6 +168,29 @@ async function _createSavingAccountTimeRatesTable() {
     await _createTable('saving_account_time_rates', query);
 }
 
+// User profiles table for storing user-specific data
+async function _createUserProfilesTable() {
+    const query = `
+        CREATE TABLE IF NOT EXISTS user_profiles (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT NOT NULL UNIQUE,
+            phone VARCHAR(20),
+            address TEXT,
+            occupation VARCHAR(100),
+            annual_income DECIMAL(15, 2),
+            investment_experience ENUM('beginner', 'intermediate', 'advanced') DEFAULT 'beginner',
+            risk_tolerance ENUM('low', 'medium', 'high') DEFAULT 'medium',
+            investment_goals TEXT,
+            profile_picture VARCHAR(255),
+            is_profile_complete BOOLEAN DEFAULT FALSE,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `;
+    await _createTable('user_profiles', query);
+}
+
 
 // Main initialization function
 async function initializeDatabase() {
@@ -177,13 +200,14 @@ async function initializeDatabase() {
         console.log("✅ MySQL connection established.");
 
         // Create tables in a logical order (dependencies first)
+        await _createUserTypeTable(); // Create user_types first
         await _createCompaniesTable();
-        await _createUserTable();
+        await _createUserTable(); // Now users table can reference user_types
+        await _createUserProfilesTable(); // Add user profiles table
         await _createAdminsTable();
         await _createBillsTable();
         await _createSavingAccountTypesTable();
         await _createSavingAccountTimeRatesTable();
-        await _createUserTypeTable();
 
         console.log("✅ All tables checked/created successfully.");
     } catch (error) {

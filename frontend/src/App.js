@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from './contexts/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Login from './components/Login';
@@ -19,25 +21,43 @@ import './App.css';
 
 function App() {
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/talk-to-an-advisor" element={<AdvisorHub />} />
-        <Route path="/unit-trust-rates" element={<UnitTrustRates />} />
-        <Route path="/bonds" element={<Bonds />} />
-        <Route path="/fixed-deposit" element={<Fixeddeposit />} />
-        <Route path="/gold-market" element={<Goldmarket />} />
-        <Route path="/portfolio-builder" element={<Portfoliobuilder />} />
-        <Route path="/saving-account" element={<Savingaccount />} />
-        <Route path="/share-market" element={<Sharemarket />} />
-        <Route path="/learn" element={<WealthWise />} />
-        <Route path="/learn/capital-markets-beginner" element={<EducationJourney />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+
+          {/* Protected Routes */}
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/talk-to-an-advisor" element={
+            <ProtectedRoute>
+              <AdvisorHub />
+            </ProtectedRoute>
+          } />
+          <Route path="/portfolio-builder" element={
+            <ProtectedRoute>
+              <Portfoliobuilder />
+            </ProtectedRoute>
+          } />
+
+          {/* Public Routes */}
+          <Route path="/unit-trust-rates" element={<UnitTrustRates />} />
+          <Route path="/bonds" element={<Bonds />} />
+          <Route path="/fixed-deposit" element={<Fixeddeposit />} />
+          <Route path="/gold-market" element={<Goldmarket />} />
+          <Route path="/saving-account" element={<Savingaccount />} />
+          <Route path="/share-market" element={<Sharemarket />} />
+          <Route path="/learn" element={<WealthWise />} />
+          <Route path="/learn/capital-markets-beginner" element={<EducationJourney />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

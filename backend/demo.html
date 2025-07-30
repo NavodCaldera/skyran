@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skyran Authentication Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0A192F 0%, #18426C 100%);
+            color: #CCD6F6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #18426C;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            color: #10CFC8;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        .demo-section {
+            background: #0A192F;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #10CFC8;
+        }
+        
+        .demo-section h2 {
+            color: #F5F2E8;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #CCD6F6;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #8892B0;
+            border-radius: 4px;
+            background: #0A192F;
+            color: #CCD6F6;
+            font-size: 14px;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #10CFC8;
+            box-shadow: 0 0 5px rgba(16, 207, 200, 0.3);
+        }
+        
+        button {
+            background: #10CFC8;
+            color: #0A192F;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background: #F5F2E8;
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
+        .success {
+            background: rgba(52, 211, 153, 0.2);
+            color: #34D399;
+            border: 1px solid #34D399;
+        }
+        
+        .error {
+            background: rgba(248, 113, 113, 0.2);
+            color: #F87171;
+            border: 1px solid #F87171;
+        }
+        
+        .info {
+            background: rgba(16, 207, 200, 0.2);
+            color: #10CFC8;
+            border: 1px solid #10CFC8;
+        }
+        
+        .user-info {
+            background: rgba(245, 242, 232, 0.1);
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+        
+        .endpoint-test {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .endpoint-test span {
+            font-family: monospace;
+            background: #0A192F;
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: 1px solid #8892B0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Skyran Authentication Demo</h1>
+        
+        <div class="demo-section">
+            <h2>📋 Authentication Status</h2>
+            <div class="endpoint-test">
+                <button onclick="checkAuth()">Check Auth Status</button>
+                <span>GET /api/auth/check</span>
+            </div>
+            <div id="authStatus" class="status info">Click "Check Auth Status" to see current authentication state</div>
+            <div id="userInfo"></div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>📝 User Registration</h2>
+            <form id="registerForm">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>First Name:</label>
+                        <input type="text" id="regFirstName" value="John" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name:</label>
+                        <input type="text" id="regLastName" value="Doe" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="regEmail" value="john.doe@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" id="regPassword" value="password123" required>
+                </div>
+                <div class="form-group">
+                    <label>Birthday:</label>
+                    <input type="date" id="regBirthday" value="1990-01-01" required>
+                </div>
+                <button type="submit">Register New User</button>
+                <span style="font-family: monospace; color: #8892B0;">POST /api/auth/register</span>
+            </form>
+            <div id="registerStatus"></div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>🔐 User Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="loginEmail" value="demo@skyran.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" id="loginPassword" value="demo123" required>
+                </div>
+                <button type="submit">Login</button>
+                <span style="font-family: monospace; color: #8892B0;">POST /api/auth/login</span>
+            </form>
+            <div id="loginStatus"></div>
+            <div class="info" style="margin-top: 15px;">
+                <strong>Demo Credentials:</strong> demo@skyran.com / demo123
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>🛡️ Protected Route Test</h2>
+            <div class="endpoint-test">
+                <button onclick="testDashboard()">Access Dashboard</button>
+                <span>GET /api/dashboard</span>
+            </div>
+            <div id="dashboardStatus"></div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>🚪 Logout</h2>
+            <div class="endpoint-test">
+                <button onclick="logout()">Logout</button>
+                <span>POST /api/auth/logout</span>
+            </div>
+            <div id="logoutStatus"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000';
+        
+        // Check authentication status
+        async function checkAuth() {
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/check`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                
+                const statusDiv = document.getElementById('authStatus');
+                const userInfoDiv = document.getElementById('userInfo');
+                
+                if (data.loggedIn) {
+                    statusDiv.className = 'status success';
+                    statusDiv.textContent = '✅ User is authenticated';
+                    userInfoDiv.innerHTML = `
+                        <div class="user-info">
+                            <h3>👤 User Information:</h3>
+                            <p><strong>Name:</strong> ${data.user.username}</p>
+                            <p><strong>Email:</strong> ${data.user.email}</p>
+                            <p><strong>ID:</strong> ${data.user.id}</p>
+                            <p><strong>Profile Complete:</strong> ${data.user.is_profile_complete ? 'Yes' : 'No'}</p>
+                            <p><strong>Investment Experience:</strong> ${data.user.investment_experience || 'Not set'}</p>
+                            <p><strong>Risk Tolerance:</strong> ${data.user.risk_tolerance || 'Not set'}</p>
+                        </div>
+                    `;
+                } else {
+                    statusDiv.className = 'status error';
+                    statusDiv.textContent = '❌ User is not authenticated';
+                    userInfoDiv.innerHTML = '';
+                }
+            } catch (error) {
+                document.getElementById('authStatus').className = 'status error';
+                document.getElementById('authStatus').textContent = '❌ Error checking auth status: ' + error.message;
+            }
+        }
+        
+        // Register user
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const userData = {
+                first_name: document.getElementById('regFirstName').value,
+                last_name: document.getElementById('regLastName').value,
+                email: document.getElementById('regEmail').value,
+                password: document.getElementById('regPassword').value,
+                birthday: document.getElementById('regBirthday').value
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify(userData)
+                });
+                
+                const data = await response.json();
+                const statusDiv = document.getElementById('registerStatus');
+                
+                if (response.ok) {
+                    statusDiv.className = 'status success';
+                    statusDiv.textContent = '✅ ' + data.message;
+                } else {
+                    statusDiv.className = 'status error';
+                    statusDiv.textContent = '❌ ' + data.error;
+                }
+            } catch (error) {
+                document.getElementById('registerStatus').className = 'status error';
+                document.getElementById('registerStatus').textContent = '❌ Error: ' + error.message;
+            }
+        });
+        
+        // Login user
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const loginData = {
+                email: document.getElementById('loginEmail').value,
+                password: document.getElementById('loginPassword').value
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify(loginData)
+                });
+                
+                const data = await response.json();
+                const statusDiv = document.getElementById('loginStatus');
+                
+                if (response.ok) {
+                    statusDiv.className = 'status success';
+                    statusDiv.textContent = '✅ ' + data.message;
+                    // Auto-check auth status after successful login
+                    setTimeout(checkAuth, 500);
+                } else {
+                    statusDiv.className = 'status error';
+                    statusDiv.textContent = '❌ ' + data.error;
+                }
+            } catch (error) {
+                document.getElementById('loginStatus').className = 'status error';
+                document.getElementById('loginStatus').textContent = '❌ Error: ' + error.message;
+            }
+        });
+        
+        // Test protected route
+        async function testDashboard() {
+            try {
+                const response = await fetch(`${API_BASE}/api/dashboard`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                const statusDiv = document.getElementById('dashboardStatus');
+                
+                if (response.ok) {
+                    statusDiv.className = 'status success';
+                    statusDiv.textContent = '✅ ' + data.message;
+                } else {
+                    statusDiv.className = 'status error';
+                    statusDiv.textContent = '❌ ' + data.error;
+                }
+            } catch (error) {
+                document.getElementById('dashboardStatus').className = 'status error';
+                document.getElementById('dashboardStatus').textContent = '❌ Error: ' + error.message;
+            }
+        }
+        
+        // Logout user
+        async function logout() {
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/logout`, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                const statusDiv = document.getElementById('logoutStatus');
+                
+                if (response.ok) {
+                    statusDiv.className = 'status success';
+                    statusDiv.textContent = '✅ ' + data.message;
+                    // Auto-check auth status after logout
+                    setTimeout(checkAuth, 500);
+                } else {
+                    statusDiv.className = 'status error';
+                    statusDiv.textContent = '❌ ' + data.error;
+                }
+            } catch (error) {
+                document.getElementById('logoutStatus').className = 'status error';
+                document.getElementById('logoutStatus').textContent = '❌ Error: ' + error.message;
+            }
+        }
+        
+        // Check auth status on page load
+        checkAuth();
+    </script>
+</body>
+</html>

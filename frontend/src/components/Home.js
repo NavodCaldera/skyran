@@ -332,259 +332,273 @@ const Home = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
 
           {/* Card 1: Portfolio Builder */}
-          <div className="group relative rounded-xl overflow-hidden shadow-2xl cursor-pointer h-80 transition-all duration-500 hover:scale-105">
-            {/* Background Image */}
-            <img
-              src="/assets/portfolio-builder.jpg"
-              alt="Portfolio Builder"
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
+          <Link to="/portfolio-builder" className="block">
+            <div className="group relative rounded-xl overflow-hidden shadow-2xl cursor-pointer h-80 transition-all duration-500 hover:scale-105">
+              {/* Background Image */}
+              <img
+                src="/assets/portfolio-builder.jpg"
+                alt="Portfolio Builder"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
 
-            {/* Default State */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
-              <h3 className="text-2xl md:text-3xl font-bold text-white">AI Portfolio Builder</h3>
-            </div>
+              {/* Default State */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                <h3 className="text-2xl md:text-3xl font-bold text-white">AI Portfolio Builder</h3>
+              </div>
 
-            {/* Hover State */}
-            <div
-              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6"
-              style={{
-                background: `linear-gradient(135deg, ${CYBER_TEAL}80 0%, ${CORPORATE_NAVY}70 50%, ${DEEP_SPACE_BLUE}80 100%)`
-              }}
-            >
-              <div className="w-full transition-transform duration-500 transform translate-y-4 group-hover:translate-y-0">
-                <p className="text-white/90 text-sm md:text-base mb-4">
-                  Get a custom investment plan in minutes.
-                </p>
+              {/* Hover State */}
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6"
+                style={{
+                  background: `linear-gradient(135deg, ${CYBER_TEAL}80 0%, ${CORPORATE_NAVY}70 50%, ${DEEP_SPACE_BLUE}80 100%)`
+                }}
+              >
+                <div className="w-full transition-transform duration-500 transform translate-y-4 group-hover:translate-y-0">
+                  <p className="text-white/90 text-sm md:text-base mb-4">
+                    Get a custom investment plan in minutes.
+                  </p>
 
-                <button
-                  className="w-full text-center py-3 px-4 rounded-full font-semibold transition-all duration-300 hover:scale-105"
-                  style={{
-                    backgroundColor: LUMINOUS_ACCENT,
-                    color: DEEP_SPACE_BLUE
-                  }}
-                >
-                  Build Plan →
-                </button>
+                  <button
+                    className="w-full text-center py-3 px-4 rounded-full font-semibold transition-all duration-300 hover:scale-105"
+                    style={{
+                      backgroundColor: LUMINOUS_ACCENT,
+                      color: DEEP_SPACE_BLUE
+                    }}
+                  >
+                    Build Plan →
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
 
           {/* Card 2: Saving Rates */}
-          <div className="group relative rounded-xl overflow-hidden shadow-2xl cursor-pointer h-80 transition-all duration-500 hover:scale-105">
-            <img
-              src="/assets/saving-rates.jpg"
-              alt="Saving Rates"
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
+          <Link to="/saving-account" className="block">
+            <div className="group relative rounded-xl overflow-hidden shadow-2xl cursor-pointer h-80 transition-all duration-500 hover:scale-105">
+              <img
+                src="/assets/saving-rates.jpg"
+                alt="Saving Rates"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
-              <h3 className="text-2xl md:text-3xl font-bold text-white">Saving Rates</h3>
-            </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                <h3 className="text-2xl md:text-3xl font-bold text-white">Saving Rates</h3>
+              </div>
 
-            <div
-              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6"
-              style={{
-                background: `linear-gradient(135deg, ${CYBER_TEAL}80 0%, ${CORPORATE_NAVY}70 50%, ${DEEP_SPACE_BLUE}80 100%)`
-              }}
-            >
-              <div className="w-full transition-transform duration-500 transform translate-y-4 group-hover:translate-y-0">
-                <p className="text-white/90 text-sm md:text-base mb-4">
-                  Find the highest interest rates from all banks.
-                </p>
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6"
+                style={{
+                  background: `linear-gradient(135deg, ${CYBER_TEAL}80 0%, ${CORPORATE_NAVY}70 50%, ${DEEP_SPACE_BLUE}80 100%)`
+                }}
+              >
+                <div className="w-full transition-transform duration-500 transform translate-y-4 group-hover:translate-y-0">
+                  <p className="text-white/90 text-sm md:text-base mb-4">
+                    Find the highest interest rates from all banks.
+                  </p>
 
-                <button
-                  className="w-full text-center py-3 px-4 rounded-full font-semibold transition-all duration-300 hover:scale-105"
-                  style={{
-                    backgroundColor: LUMINOUS_ACCENT,
-                    color: DEEP_SPACE_BLUE
-                  }}
-                >
-                  Compare →
-                </button>
+                  <button
+                    className="w-full text-center py-3 px-4 rounded-full font-semibold transition-all duration-300 hover:scale-105"
+                    style={{
+                      backgroundColor: LUMINOUS_ACCENT,
+                      color: DEEP_SPACE_BLUE
+                    }}
+                  >
+                    Compare →
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
 
           {/* Card 3: Fixed Deposits */}
-          <div className="group relative rounded-xl overflow-hidden shadow-2xl cursor-pointer h-80 transition-all duration-500 hover:scale-105">
-            <img
-              src="/assets/fixed-deposit-rates.webp"
-              alt="Fixed Deposits"
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
+          <Link to="/fixed-deposit" className="block">
+            <div className="group relative rounded-xl overflow-hidden shadow-2xl cursor-pointer h-80 transition-all duration-500 hover:scale-105">
+              <img
+                src="/assets/fixed-deposit-rates.webp"
+                alt="Fixed Deposits"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
-              <h3 className="text-2xl md:text-3xl font-bold text-white">Fixed Deposits</h3>
-            </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                <h3 className="text-2xl md:text-3xl font-bold text-white">Fixed Deposits</h3>
+              </div>
 
-            <div
-              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6"
-              style={{
-                background: `linear-gradient(135deg, ${CYBER_TEAL}80 0%, ${CORPORATE_NAVY}70 50%, ${DEEP_SPACE_BLUE}80 100%)`
-              }}
-            >
-              <div className="w-full transition-transform duration-500 transform translate-y-4 group-hover:translate-y-0">
-                <p className="text-white/90 text-sm md:text-base mb-4">
-                  Lock in a guaranteed return. Safe and simple.
-                </p>
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6"
+                style={{
+                  background: `linear-gradient(135deg, ${CYBER_TEAL}80 0%, ${CORPORATE_NAVY}70 50%, ${DEEP_SPACE_BLUE}80 100%)`
+                }}
+              >
+                <div className="w-full transition-transform duration-500 transform translate-y-4 group-hover:translate-y-0">
+                  <p className="text-white/90 text-sm md:text-base mb-4">
+                    Lock in a guaranteed return. Safe and simple.
+                  </p>
 
-                <button
-                  className="w-full text-center py-3 px-4 rounded-full font-semibold transition-all duration-300 hover:scale-105"
-                  style={{
-                    backgroundColor: LUMINOUS_ACCENT,
-                    color: DEEP_SPACE_BLUE
-                  }}
-                >
-                  Find FDs →
-                </button>
+                  <button
+                    className="w-full text-center py-3 px-4 rounded-full font-semibold transition-all duration-300 hover:scale-105"
+                    style={{
+                      backgroundColor: LUMINOUS_ACCENT,
+                      color: DEEP_SPACE_BLUE
+                    }}
+                  >
+                    Find FDs →
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
 
           {/* Card 4: Bonds */}
-          <div className="group relative rounded-xl overflow-hidden shadow-2xl cursor-pointer h-80 transition-all duration-500 hover:scale-105">
-            <img
-              src="/assets/bonds.png"
-              alt="Bonds"
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
+          <Link to="/bonds" className="block">
+            <div className="group relative rounded-xl overflow-hidden shadow-2xl cursor-pointer h-80 transition-all duration-500 hover:scale-105">
+              <img
+                src="/assets/bonds.png"
+                alt="Bonds"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
-              <h3 className="text-2xl md:text-3xl font-bold text-white">Bonds</h3>
-            </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                <h3 className="text-2xl md:text-3xl font-bold text-white">Bonds</h3>
+              </div>
 
-            <div
-              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6"
-              style={{
-                background: `linear-gradient(135deg, ${CYBER_TEAL}80 0%, ${CORPORATE_NAVY}70 50%, ${DEEP_SPACE_BLUE}80 100%)`
-              }}
-            >
-              <div className="w-full transition-transform duration-500 transform translate-y-4 group-hover:translate-y-0">
-                <p className="text-white/90 text-sm md:text-base mb-4">
-                  Lend to the government or top companies for steady income.
-                </p>
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6"
+                style={{
+                  background: `linear-gradient(135deg, ${CYBER_TEAL}80 0%, ${CORPORATE_NAVY}70 50%, ${DEEP_SPACE_BLUE}80 100%)`
+                }}
+              >
+                <div className="w-full transition-transform duration-500 transform translate-y-4 group-hover:translate-y-0">
+                  <p className="text-white/90 text-sm md:text-base mb-4">
+                    Lend to the government or top companies for steady income.
+                  </p>
 
-                <button
-                  className="w-full text-center py-3 px-4 rounded-full font-semibold transition-all duration-300 hover:scale-105"
-                  style={{
-                    backgroundColor: LUMINOUS_ACCENT,
-                    color: DEEP_SPACE_BLUE
-                  }}
-                >
-                  Explore →
-                </button>
+                  <button
+                    className="w-full text-center py-3 px-4 rounded-full font-semibold transition-all duration-300 hover:scale-105"
+                    style={{
+                      backgroundColor: LUMINOUS_ACCENT,
+                      color: DEEP_SPACE_BLUE
+                    }}
+                  >
+                    Explore →
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
 
           {/* Card 5: Unit Trust */}
-          <div className="group relative rounded-xl overflow-hidden shadow-2xl cursor-pointer h-80 transition-all duration-500 hover:scale-105">
-            <img
-              src="/assets/unit-trust.jpg"
-              alt="Unit Trust"
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
+          <Link to="/unit-trust-rates" className="block">
+            <div className="group relative rounded-xl overflow-hidden shadow-2xl cursor-pointer h-80 transition-all duration-500 hover:scale-105">
+              <img
+                src="/assets/unit-trust.jpg"
+                alt="Unit Trust"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
-              <h3 className="text-2xl md:text-3xl font-bold text-white">Unit Trusts</h3>
-            </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                <h3 className="text-2xl md:text-3xl font-bold text-white">Unit Trusts</h3>
+              </div>
 
-            <div
-              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6"
-              style={{
-                background: `linear-gradient(135deg, ${CYBER_TEAL}80 0%, ${CORPORATE_NAVY}70 50%, ${DEEP_SPACE_BLUE}80 100%)`
-              }}
-            >
-              <div className="w-full transition-transform duration-500 transform translate-y-4 group-hover:translate-y-0">
-                <p className="text-white/90 text-sm md:text-base mb-4">
-                  Instantly diversify. One fund, many investments.
-                </p>
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6"
+                style={{
+                  background: `linear-gradient(135deg, ${CYBER_TEAL}80 0%, ${CORPORATE_NAVY}70 50%, ${DEEP_SPACE_BLUE}80 100%)`
+                }}
+              >
+                <div className="w-full transition-transform duration-500 transform translate-y-4 group-hover:translate-y-0">
+                  <p className="text-white/90 text-sm md:text-base mb-4">
+                    Instantly diversify. One fund, many investments.
+                  </p>
 
-                <button
-                  className="w-full text-center py-3 px-4 rounded-full font-semibold transition-all duration-300 hover:scale-105"
-                  style={{
-                    backgroundColor: LUMINOUS_ACCENT,
-                    color: DEEP_SPACE_BLUE
-                  }}
-                >
-                  Discover →
-                </button>
+                  <button
+                    className="w-full text-center py-3 px-4 rounded-full font-semibold transition-all duration-300 hover:scale-105"
+                    style={{
+                      backgroundColor: LUMINOUS_ACCENT,
+                      color: DEEP_SPACE_BLUE
+                    }}
+                  >
+                    Discover →
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
 
           {/* Card 6: Gold Market */}
-          <div className="group relative rounded-xl overflow-hidden shadow-2xl cursor-pointer h-80 transition-all duration-500 hover:scale-105">
-            <img
-              src="/assets/gold-market.webp"
-              alt="Gold Market"
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
+          <Link to="/gold-market" className="block">
+            <div className="group relative rounded-xl overflow-hidden shadow-2xl cursor-pointer h-80 transition-all duration-500 hover:scale-105">
+              <img
+                src="/assets/gold-market.webp"
+                alt="Gold Market"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
-              <h3 className="text-2xl md:text-3xl font-bold text-white">Gold Market</h3>
-            </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                <h3 className="text-2xl md:text-3xl font-bold text-white">Gold Market</h3>
+              </div>
 
-            <div
-              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6"
-              style={{
-                background: `linear-gradient(135deg, ${CYBER_TEAL}80 0%, ${CORPORATE_NAVY}70 50%, ${DEEP_SPACE_BLUE}80 100%)`
-              }}
-            >
-              <div className="w-full transition-transform duration-500 transform translate-y-4 group-hover:translate-y-0">
-                <p className="text-white/90 text-sm md:text-base mb-4">
-                  A classic safe haven to protect your wealth.
-                </p>
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6"
+                style={{
+                  background: `linear-gradient(135deg, ${CYBER_TEAL}80 0%, ${CORPORATE_NAVY}70 50%, ${DEEP_SPACE_BLUE}80 100%)`
+                }}
+              >
+                <div className="w-full transition-transform duration-500 transform translate-y-4 group-hover:translate-y-0">
+                  <p className="text-white/90 text-sm md:text-base mb-4">
+                    A classic safe haven to protect your wealth.
+                  </p>
 
-                <button
-                  className="w-full text-center py-3 px-4 rounded-full font-semibold transition-all duration-300 hover:scale-105"
-                  style={{
-                    backgroundColor: LUMINOUS_ACCENT,
-                    color: DEEP_SPACE_BLUE
-                  }}
-                >
-                  Track Gold →
-                </button>
+                  <button
+                    className="w-full text-center py-3 px-4 rounded-full font-semibold transition-all duration-300 hover:scale-105"
+                    style={{
+                      backgroundColor: LUMINOUS_ACCENT,
+                      color: DEEP_SPACE_BLUE
+                    }}
+                  >
+                    Track Gold →
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
 
           {/* Card 7: Share Market */}
-          <div className="group relative rounded-xl overflow-hidden shadow-2xl cursor-pointer h-80 transition-all duration-500 hover:scale-105 lg:col-start-2">
-            <img
-              src="/assets/share-market.webp"
-              alt="Share Market"
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
+          <Link to="/share-market" className="block">
+            <div className="group relative rounded-xl overflow-hidden shadow-2xl cursor-pointer h-80 transition-all duration-500 hover:scale-105 lg:col-start-2">
+              <img
+                src="/assets/share-market.webp"
+                alt="Share Market"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
-              <h3 className="text-2xl md:text-3xl font-bold text-white">Share Market</h3>
-            </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                <h3 className="text-2xl md:text-3xl font-bold text-white">Share Market</h3>
+              </div>
 
-            <div
-              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6"
-              style={{
-                background: `linear-gradient(135deg, ${CYBER_TEAL}80 0%, ${CORPORATE_NAVY}70 50%, ${DEEP_SPACE_BLUE}80 100%)`
-              }}
-            >
-              <div className="w-full transition-transform duration-500 transform translate-y-4 group-hover:translate-y-0">
-                <p className="text-white/90 text-sm md:text-base mb-4">
-                  Own a piece of top Sri Lankan companies.
-                </p>
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6"
+                style={{
+                  background: `linear-gradient(135deg, ${CYBER_TEAL}80 0%, ${CORPORATE_NAVY}70 50%, ${DEEP_SPACE_BLUE}80 100%)`
+                }}
+              >
+                <div className="w-full transition-transform duration-500 transform translate-y-4 group-hover:translate-y-0">
+                  <p className="text-white/90 text-sm md:text-base mb-4">
+                    Own a piece of top Sri Lankan companies.
+                  </p>
 
-                <button
-                  className="w-full text-center py-3 px-4 rounded-full font-semibold transition-all duration-300 hover:scale-105"
-                  style={{
-                    backgroundColor: LUMINOUS_ACCENT,
-                    color: DEEP_SPACE_BLUE
-                  }}
-                >
-                  View Market →
-                </button>
+                  <button
+                    className="w-full text-center py-3 px-4 rounded-full font-semibold transition-all duration-300 hover:scale-105"
+                    style={{
+                      backgroundColor: LUMINOUS_ACCENT,
+                      color: DEEP_SPACE_BLUE
+                    }}
+                  >
+                    View Market →
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
 
         </div>
       </div>

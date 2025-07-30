@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import {
-  API_BASE_URL,
   DEEP_SPACE_BLUE,
   CORPORATE_NAVY,
   CYBER_TEAL,
@@ -30,6 +30,14 @@ const Signup = () => {
   const [passwordStrength, setPasswordStrength] = useState(0);
 
   const navigate = useNavigate();
+  const { register, isAuthenticated } = useAuth();
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -138,33 +146,19 @@ const Signup = () => {
     setIsLoading(true);
     setMessage('');
 
-    try {
-      const { confirmPassword, ...submitData } = formData;
+    const { confirmPassword, ...submitData } = formData;
+    const result = await register(submitData);
 
-      const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(submitData),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage('Account created successfully! Redirecting to login...');
-        setTimeout(() => {
-          navigate('/login');
-        }, 2000);
-      } else {
-        setMessage(data.error || 'Registration failed. Please try again.');
-      }
-    } catch (error) {
-      setMessage('Failed to connect to the server. Please try again.');
-    } finally {
-      setIsLoading(false);
+    if (result.success) {
+      setMessage('Account created successfully! Redirecting to login...');
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+    } else {
+      setMessage(result.error || 'Registration failed. Please try again.');
     }
+
+    setIsLoading(false);
   };
 
   return (
@@ -193,6 +187,11 @@ const Signup = () => {
           <p style={{ color: MID_SLATE }}>
             Join Skyran to start your financial journey
           </p>
+          <div className="mt-4 p-3 rounded-lg" style={{ backgroundColor: `${CYBER_TEAL}20`, border: `1px solid ${CYBER_TEAL}` }}>
+            <p className="text-sm" style={{ color: CYBER_TEAL }}>
+              🚀 <strong>Demo Mode:</strong> Backend server not available. Registration will work in demo mode for testing purposes.
+            </p>
+          </div>
         </div>
 
         {/* Signup Form */}

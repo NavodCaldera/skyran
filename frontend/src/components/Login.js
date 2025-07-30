@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import {
-  API_BASE_URL,
   DEEP_SPACE_BLUE,
   CORPORATE_NAVY,
   CYBER_TEAL,
@@ -21,8 +21,18 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  
+
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login, isAuthenticated } = useAuth();
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      const from = location.state?.from?.pathname || '/dashboard';
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, navigate, location]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,38 +69,26 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     setIsLoading(true);
     setMessage('');
-    
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include', // Important for session cookies
-        body: JSON.stringify(formData),
-      });
 
-      const data = await response.json();
+    const result = await login(formData.email, formData.password);
 
-      if (response.ok) {
-        setMessage('Login successful! Redirecting...');
-        // Redirect to dashboard or home page after successful login
-        setTimeout(() => {
-          navigate('/');
-        }, 1500);
-      } else {
-        setMessage(data.error || 'Login failed. Please try again.');
-      }
-    } catch (error) {
-      setMessage('Failed to connect to the server. Please try again.');
-    } finally {
-      setIsLoading(false);
+    if (result.success) {
+      setMessage('Login successful! Redirecting...');
+      // Redirect to the page they were trying to access or dashboard
+      const from = location.state?.from?.pathname || '/dashboard';
+      setTimeout(() => {
+        navigate(from, { replace: true });
+      }, 1500);
+    } else {
+      setMessage(result.error || 'Login failed. Please try again.');
     }
+
+    setIsLoading(false);
   };
 
   return (
@@ -119,6 +117,11 @@ const Login = () => {
           <p style={{ color: MID_SLATE }}>
             Sign in to your account to continue
           </p>
+          <div className="mt-4 p-3 rounded-lg" style={{ backgroundColor: `${CYBER_TEAL}20`, border: `1px solid ${CYBER_TEAL}` }}>
+            <p className="text-sm" style={{ color: CYBER_TEAL }}>
+              🚀 <strong>Demo Mode:</strong> Backend server not available. Use <strong>demo@skyran.com / demo123</strong> to test the authentication flow.
+            </p>
+          </div>
         </div>
 
         {/* Login Form */}

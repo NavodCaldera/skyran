@@ -1,4 +1,4 @@
-export const API_BASE_URL = "http://localhost:3000";
+export const API_BASE_URL = "http://localhost:5001";
 
 // Skyran FinTech Color Palette - Designed for Clarity, Trust, and Action
 

@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import { DEEP_SPACE_BLUE, CORPORATE_NAVY, CYBER_TEAL, LIGHT_SLATE, MID_SLATE, LUMINOUS_ACCENT } from '../constants';
 
 const Navbar = () => {
     const location = useLocation();
+    const navigate = useNavigate();
+    const { user, isAuthenticated, logout } = useAuth();
     const [isOpen, setIsOpen] = useState(false); // Mobile menu state
     const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Desktop dropdown
     const [isMarketDropdownOpen, setIsMarketDropdownOpen] = useState(false); // Desktop Market Insights submenu
@@ -11,8 +14,10 @@ const Navbar = () => {
     const [isMobileMarketDropdownOpen, setIsMobileMarketDropdownOpen] = useState(false); // Mobile Market Insights submenu
     const [isScrolled, setIsScrolled] = useState(false); // Scroll state for navbar styling
     const [isNavbarVisible, setIsNavbarVisible] = useState(true); // Auto-hide navbar state
+    const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false); // User dropdown
     const dropdownRef = useRef(null);
     const marketDropdownRef = useRef(null);
+    const userDropdownRef = useRef(null);
 
     // Check if we're on the learn page
     const isLearnPage = location.pathname === '/learn';
@@ -79,6 +84,9 @@ const Navbar = () => {
             if (marketDropdownRef.current && !marketDropdownRef.current.contains(event.target)) {
                 setIsMarketDropdownOpen(false);
             }
+            if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
+                setIsUserDropdownOpen(false);
+            }
         };
 
         document.addEventListener('mousedown', handleClickOutside);
@@ -113,6 +121,15 @@ const Navbar = () => {
             e.target.style.color = isActive ? CYBER_TEAL : LIGHT_SLATE;
             e.target.style.transform = 'translateY(0)';
         }
+    };
+
+    // Handle logout
+    const handleLogout = async () => {
+        const result = await logout();
+        if (result.success) {
+            navigate('/');
+        }
+        setIsUserDropdownOpen(false);
     };
 
     return (
@@ -395,49 +412,140 @@ const Navbar = () => {
                             Learn
                         </Link>
 
-                        <Link
-                            to="/login"
-                            className="text-base font-medium transition-all duration-200 px-3 py-2 rounded-lg border border-transparent"
-                            style={{
-                                color: isActiveLink('/login') ? CYBER_TEAL : LIGHT_SLATE,
-                                borderColor: isActiveLink('/login') ? CYBER_TEAL : 'transparent'
-                            }}
-                            onMouseEnter={(e) => {
-                                e.target.style.color = CYBER_TEAL;
-                                e.target.style.borderColor = CYBER_TEAL;
-                                e.target.style.backgroundColor = `${CYBER_TEAL}10`;
-                            }}
-                            onMouseLeave={(e) => {
-                                const isActive = isActiveLink('/login');
-                                e.target.style.color = isActive ? CYBER_TEAL : LIGHT_SLATE;
-                                e.target.style.borderColor = isActive ? CYBER_TEAL : 'transparent';
-                                e.target.style.backgroundColor = 'transparent';
-                            }}
-                        >
-                            Login
-                        </Link>
+                        {/* Authentication Section */}
+                        {isAuthenticated ? (
+                            // User Dropdown
+                            <div className="relative" ref={userDropdownRef}>
+                                <button
+                                    onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
+                                    className="flex items-center space-x-2 text-base font-medium transition-all duration-200 px-3 py-2 rounded-lg"
+                                    style={{
+                                        color: isUserDropdownOpen ? CYBER_TEAL : LIGHT_SLATE,
+                                        backgroundColor: isUserDropdownOpen ? `${CYBER_TEAL}20` : 'transparent'
+                                    }}
+                                >
+                                    <div className="w-8 h-8 rounded-full flex items-center justify-center"
+                                         style={{ backgroundColor: CYBER_TEAL, color: DEEP_SPACE_BLUE }}>
+                                        {user?.first_name?.charAt(0)?.toUpperCase() || 'U'}
+                                    </div>
+                                    <span>{user?.first_name || 'User'}</span>
+                                    <svg
+                                        className={`w-4 h-4 transition-transform duration-200 ${isUserDropdownOpen ? 'rotate-180' : ''}`}
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
 
-                        <Link
-                            to="/signup"
-                            className="px-6 py-2.5 rounded-lg font-semibold text-sm transition-all duration-200 transform hover:scale-105 shadow-lg"
-                            style={{
-                                backgroundColor: CYBER_TEAL,
-                                color: DEEP_SPACE_BLUE,
-                                boxShadow: `0 4px 14px 0 ${CYBER_TEAL}40`
-                            }}
-                            onMouseEnter={(e) => {
-                                e.target.style.backgroundColor = LUMINOUS_ACCENT;
-                                e.target.style.color = DEEP_SPACE_BLUE;
-                                e.target.style.boxShadow = `0 6px 20px 0 ${LUMINOUS_ACCENT}40`;
-                            }}
-                            onMouseLeave={(e) => {
-                                e.target.style.backgroundColor = CYBER_TEAL;
-                                e.target.style.color = DEEP_SPACE_BLUE;
-                                e.target.style.boxShadow = `0 4px 14px 0 ${CYBER_TEAL}40`;
-                            }}
-                        >
-                            Sign Up
-                        </Link>
+                                {isUserDropdownOpen && (
+                                    <div
+                                        className="absolute right-0 z-20 mt-3 w-48 rounded-xl shadow-2xl py-3 border animate-fadeIn"
+                                        style={{
+                                            backgroundColor: CORPORATE_NAVY,
+                                            borderColor: `${CYBER_TEAL}40`,
+                                            boxShadow: `0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1), 0 0 0 1px ${CYBER_TEAL}20`
+                                        }}
+                                    >
+                                        <div className="px-4 py-2 border-b" style={{ borderColor: `${MID_SLATE}40` }}>
+                                            <p className="text-sm font-medium" style={{ color: LIGHT_SLATE }}>
+                                                {user?.username || 'User'}
+                                            </p>
+                                            <p className="text-xs" style={{ color: MID_SLATE }}>
+                                                {user?.email}
+                                            </p>
+                                        </div>
+
+                                        <Link
+                                            to="/dashboard"
+                                            className="flex items-center px-4 py-3 text-sm font-medium transition-all duration-200"
+                                            style={{ color: LIGHT_SLATE }}
+                                            onMouseEnter={(e) => {
+                                                e.target.style.backgroundColor = `${CYBER_TEAL}15`;
+                                                e.target.style.color = CYBER_TEAL;
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                e.target.style.backgroundColor = 'transparent';
+                                                e.target.style.color = LIGHT_SLATE;
+                                            }}
+                                            onClick={() => setIsUserDropdownOpen(false)}
+                                        >
+                                            <svg className="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                            </svg>
+                                            Dashboard
+                                        </Link>
+
+                                        <button
+                                            onClick={handleLogout}
+                                            className="flex items-center w-full px-4 py-3 text-sm font-medium transition-all duration-200"
+                                            style={{ color: LIGHT_SLATE }}
+                                            onMouseEnter={(e) => {
+                                                e.target.style.backgroundColor = `${CYBER_TEAL}15`;
+                                                e.target.style.color = CYBER_TEAL;
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                e.target.style.backgroundColor = 'transparent';
+                                                e.target.style.color = LIGHT_SLATE;
+                                            }}
+                                        >
+                                            <svg className="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                            </svg>
+                                            Logout
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            // Login/Signup buttons for non-authenticated users
+                            <>
+                                <Link
+                                    to="/login"
+                                    className="text-base font-medium transition-all duration-200 px-3 py-2 rounded-lg border border-transparent"
+                                    style={{
+                                        color: isActiveLink('/login') ? CYBER_TEAL : LIGHT_SLATE,
+                                        borderColor: isActiveLink('/login') ? CYBER_TEAL : 'transparent'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.target.style.color = CYBER_TEAL;
+                                        e.target.style.borderColor = CYBER_TEAL;
+                                        e.target.style.backgroundColor = `${CYBER_TEAL}10`;
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        const isActive = isActiveLink('/login');
+                                        e.target.style.color = isActive ? CYBER_TEAL : LIGHT_SLATE;
+                                        e.target.style.borderColor = isActive ? CYBER_TEAL : 'transparent';
+                                        e.target.style.backgroundColor = 'transparent';
+                                    }}
+                                >
+                                    Login
+                                </Link>
+
+                                <Link
+                                    to="/signup"
+                                    className="px-6 py-2.5 rounded-lg font-semibold text-sm transition-all duration-200 transform hover:scale-105 shadow-lg"
+                                    style={{
+                                        backgroundColor: CYBER_TEAL,
+                                        color: DEEP_SPACE_BLUE,
+                                        boxShadow: `0 4px 14px 0 ${CYBER_TEAL}40`
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.target.style.backgroundColor = LUMINOUS_ACCENT;
+                                        e.target.style.color = DEEP_SPACE_BLUE;
+                                        e.target.style.boxShadow = `0 6px 20px 0 ${LUMINOUS_ACCENT}40`;
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.target.style.backgroundColor = CYBER_TEAL;
+                                        e.target.style.color = DEEP_SPACE_BLUE;
+                                        e.target.style.boxShadow = `0 4px 14px 0 ${CYBER_TEAL}40`;
+                                    }}
+                                >
+                                    Sign Up
+                                </Link>
+                            </>
+                        )}
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -623,26 +731,70 @@ const Navbar = () => {
                             Learn
                         </Link>
 
-                        <Link
-                            to="/login"
-                            className="block px-3 py-3 rounded-lg font-medium transition-all duration-200"
-                            style={{ color: isActiveLink('/login') ? CYBER_TEAL : LIGHT_SLATE }}
-                            onClick={() => setIsOpen(false)}
-                        >
-                            Login
-                        </Link>
+                        {/* Mobile Authentication Section */}
+                        {isAuthenticated ? (
+                            <>
+                                <div className="px-3 py-2 border-t border-b" style={{ borderColor: `${MID_SLATE}40` }}>
+                                    <div className="flex items-center space-x-3">
+                                        <div className="w-10 h-10 rounded-full flex items-center justify-center"
+                                             style={{ backgroundColor: CYBER_TEAL, color: DEEP_SPACE_BLUE }}>
+                                            {user?.first_name?.charAt(0)?.toUpperCase() || 'U'}
+                                        </div>
+                                        <div>
+                                            <p className="font-medium" style={{ color: LIGHT_SLATE }}>
+                                                {user?.username || 'User'}
+                                            </p>
+                                            <p className="text-sm" style={{ color: MID_SLATE }}>
+                                                {user?.email}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
 
-                        <Link
-                            to="/signup"
-                            className="block mx-3 mt-4 px-6 py-3 rounded-lg font-semibold text-center transition-all duration-200"
-                            style={{
-                                backgroundColor: CYBER_TEAL,
-                                color: DEEP_SPACE_BLUE
-                            }}
-                            onClick={() => setIsOpen(false)}
-                        >
-                            Sign Up
-                        </Link>
+                                <Link
+                                    to="/dashboard"
+                                    className="block px-3 py-3 rounded-lg font-medium transition-all duration-200"
+                                    style={{ color: isActiveLink('/dashboard') ? CYBER_TEAL : LIGHT_SLATE }}
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    Dashboard
+                                </Link>
+
+                                <button
+                                    onClick={() => {
+                                        handleLogout();
+                                        setIsOpen(false);
+                                    }}
+                                    className="block w-full text-left px-3 py-3 rounded-lg font-medium transition-all duration-200"
+                                    style={{ color: LIGHT_SLATE }}
+                                >
+                                    Logout
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <Link
+                                    to="/login"
+                                    className="block px-3 py-3 rounded-lg font-medium transition-all duration-200"
+                                    style={{ color: isActiveLink('/login') ? CYBER_TEAL : LIGHT_SLATE }}
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    Login
+                                </Link>
+
+                                <Link
+                                    to="/signup"
+                                    className="block mx-3 mt-4 px-6 py-3 rounded-lg font-semibold text-center transition-all duration-200"
+                                    style={{
+                                        backgroundColor: CYBER_TEAL,
+                                        color: DEEP_SPACE_BLUE
+                                    }}
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    Sign Up
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

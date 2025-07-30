@@ -1,8 +1,8 @@
 const express = require('express');
 const session = require('express-session');
-const MySQLStore = require('express-mysql-session')(session);
 const dotenv = require('dotenv');
-const { pool, initializeDatabase, executeQuery } = require('./db');
+// Use mock database for demonstration
+const { pool, initializeDatabase, executeQuery } = require('./db-mock');
 const cors = require('cors');
 
 dotenv.config({ path: './.env' });
@@ -12,7 +12,7 @@ const app = express();
 
 // Enable CORS for frontend
 app.use(cors({
-  origin: 'http://localhost:4000',
+  origin: 'http://localhost:3000',
   credentials: true
 }));
 
@@ -22,11 +22,8 @@ if (!process.env.SESSION_SECRET || process.env.SESSION_SECRET.length < 32) {
     process.exit(1);
 }
 
-// Session store setup
-const sessionStore = new MySQLStore({}, pool);
-sessionStore.on('error', error => {
-    console.error('❌ MySQL session store error:', error);
-});
+// Use memory session store for demo
+console.log('✅ Using memory session store for demonstration');
 
 // Middleware
 app.use(express.urlencoded({ extended: false }));
@@ -42,11 +39,10 @@ app.use((req, res, next) => {
 app.use(session({
     key: 'session_cookie_name',
     secret: process.env.SESSION_SECRET,
-    store: sessionStore,
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: process.env.NODE_ENV === 'production',
+        secure: false, // Set to false for demo
         httpOnly: true,
         maxAge: 3600000 // 1 hour
     }
